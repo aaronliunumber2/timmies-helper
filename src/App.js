@@ -1,15 +1,15 @@
 import './App.css';
-
+import TimmiesApp from './TimmiesApp'
 
 function App() {
   return (
       <div className="App">
 
-          <header className="App-header">
+          <header>
             Timmies Helper App  
           </header>
           <div>
-              <PlayerList/>
+              <TimmiesApp/>
           </div>
     </div>
   );
