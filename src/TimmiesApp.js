@@ -21,7 +21,7 @@ class TimmiesApp extends Component {
     }
 
     loadData() {
-        const promise = axios.post("http://ec2-54-158-170-220.compute-1.amazonaws.com/api/v1/players");
+        const promise = axios.post("https://cors.bridged.cc/http://ec2-54-158-170-220.compute-1.amazonaws.com/api/v1/players");
         promise.then((response) => {
             this.setState({ sets: response.data.sets, loading: false });
         })

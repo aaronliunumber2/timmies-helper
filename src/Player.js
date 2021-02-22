@@ -19,12 +19,22 @@ class Player extends Component {
     }
 
     loadPlayerData() {
-        const promise = axios.post("https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + this.props.playerInfo.firstName + "%20" + this.props.playerInfo.lastName + "%25%22");
+        const playerLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + this.props.playerInfo.firstName + "%20" + this.props.playerInfo.lastName + "%25%22";
+        const instance = axios.create({
+            baseURL: playerLink,
+            withCredentials: false,
+            headers: {
+            }
+        });
+        const promise = instance.get();
         promise.then((response) => {
             console.log("player data");
             console.log(response);
-            //this.setState({ gamesplayed: response.data, goals: false });
-        })
+            const data = response.data.data[0];
+            this.setState({ gamesplayed: data.gamesPlayed, goals: data.goals });
+        }).catch((error) => {
+            console.log("Player get didn't work " + error)
+        });
     }
 
     goalspergame() {
