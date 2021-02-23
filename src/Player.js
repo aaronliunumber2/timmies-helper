@@ -42,7 +42,7 @@ class Player extends Component {
             return 0;
         }
         else {
-            return this.state.goals / this.state.gamesplayed;
+            return (this.state.goals / this.state.gamesplayed).toFixed(2);
         }
     }
 

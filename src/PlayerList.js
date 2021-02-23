@@ -10,7 +10,7 @@ class PlayerList extends Component {
         return (<ul>
             {
                 this.props.players.map((player, index) => {
-                    return (<li><Player playerInfo={player}/></li>)
+                    return (<li className='app-list'><Player playerInfo={player}/></li>)
                 })
             }
         </ul>)

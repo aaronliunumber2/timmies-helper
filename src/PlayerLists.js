@@ -9,12 +9,11 @@ class PlayerLists extends Component {
     render() {
         return (
             <div>
-                <div> Player Lists</div>
                 <ul>
                     {
                         this.props.sets.map((set) => {
                             return(
-                                <li>
+                                <li className='app-list'>
                                 <h2>List {set.id}</h2>
                                 <PlayerList players={set.players} />
                                 </li>
