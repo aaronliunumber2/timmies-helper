@@ -10,45 +10,41 @@ class Player extends Component {
             goals : 0,
         }
 
-        this.loadPlayerData = this.loadPlayerData.bind(this);
-        this.goalspergame = this.goalspergame.bind(this);
+        this.getGoalsPerGame = this.getGoalsPerGame.bind(this);
+        this.getGamesPlayed = this.getGamesPlayed.bind(this);
+        this.getGoals = this.getGoals.bind(this);
     }
 
-    componentDidMount() {
-        this.loadPlayerData();
+    getGamesPlayed() {
+        if (this.props.player.nhldata) {
+            return this.props.player.nhldata.gamesPlayed;
+        }
+        else {
+            return 0;
+        }
     }
 
-    loadPlayerData() {
-        const playerLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + this.props.playerInfo.firstName + "%20" + this.props.playerInfo.lastName + "%25%22";
-        const instance = axios.create({
-            baseURL: playerLink,
-            withCredentials: false,
-            headers: {
-            }
-        });
-        const promise = instance.get();
-        promise.then((response) => {
-            console.log("player data");
-            console.log(response);
-            const data = response.data.data[0];
-            this.setState({ gamesplayed: data.gamesPlayed, goals: data.goals });
-        }).catch((error) => {
-            console.log("Player get didn't work " + error)
-        });
+    getGoals() {
+        if (this.props.player.nhldata) {
+            return this.props.player.nhldata.goals;
+        }
+        else {
+            return 0;
+        }
     }
 
-    goalspergame() {
-        if (this.state.gamesplayed === 0) {
+    getGoalsPerGame() {
+        if (!this.props.player.nhldata || this.props.player.nhldata.gamesPlayed === 0) {
             return 0;
         }
         else {
-            return (this.state.goals / this.state.gamesplayed).toFixed(2);
+            return (this.props.player.nhldata.goals / this.props.player.nhldata.gamesPlayed).toFixed(2);
         }
     }
 
 
     render() {
-        return <div>{this.props.playerInfo.firstName} {this.props.playerInfo.lastName} GP: {this.state.gamesplayed} G: {this.state.goals} G/GP: { this.goalspergame()}</div>
+        return <div>{this.props.player.firstName} {this.props.player.lastName} GP: {this.getGamesPlayed()} G: {this.getGoals()} G/GP: {this.getGoalsPerGame()}</div>
     }
 }
 

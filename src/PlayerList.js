@@ -9,8 +9,12 @@ class PlayerList extends Component {
     render() {
         return (<ul>
             {
-                this.props.players.map((player, index) => {
-                    return (<li className='app-list'><Player playerInfo={player}/></li>)
+                this.props.players
+                    .sort((a, b) => (a.nhldata ? a.nhldata.goals : 0) - (b.nhldata ? b.nhldata.goals : 0))
+                    .reverse()
+                    .map((player, index) => {
+                    return (<li className='app-list'  key={player.key}><Player player={player} /></li>)
+                    
                 })
             }
         </ul>)
