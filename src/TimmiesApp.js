@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PlayerLists from './PlayerLists'
-import teamData from './teams.json'
+import teamData from './data/teams.json'
+import playerNames from './data/playerNames.json'
 import axios from 'axios'
 
 class TimmiesApp extends Component {
@@ -86,8 +87,19 @@ class TimmiesApp extends Component {
 
     loadSetData(sets) {
         sets.map((set) => {
-            set.players.map((player) =>{
-                let playerLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + player.firstName + "%20" + player.lastName + "%25%22";
+            set.players.map((player) => {
+                //we want to see if we can find the player in the player.json table
+                let firstName = player.firstName.trim();
+                let lastName = player.lastName.trim();
+                let fullName = firstName + " " + lastName;
+                let jsonPlayer = playerNames.players.find(playerName => playerName.timmiesName === fullName);
+                if (jsonPlayer) {
+                    firstName = jsonPlayer.firstName;
+                    lastName = jsonPlayer.lastName;
+                }
+
+
+                let playerLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
                 let instance = axios.create({
                     baseURL: playerLink,
                     withCredentials: false,
