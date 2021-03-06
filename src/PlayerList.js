@@ -10,7 +10,7 @@ class PlayerList extends Component {
         return (<ul>
             {
                 this.props.players
-                    .sort((a, b) => (a.nhldata ? a.nhldata.goals : 0) - (b.nhldata ? b.nhldata.goals : 0))
+                    .sort((a, b) => (a.nhldata ? a.nhldata.goals / a.nhldata.gamesPlayed : 0) - (b.nhldata ? b.nhldata.goals / b.nhldata.gamesPlayed : 0))
                     .reverse()
                     .map((player, index) => {
                         let opponent = null;
