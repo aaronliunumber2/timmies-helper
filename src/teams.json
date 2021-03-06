@@ -86,7 +86,8 @@
     },
     {
       "fullName": "Los Angeles Kings",
-      "abbreviation": "LAK"
+      "abbreviation": "LAK",
+      "timmiesAbbreviation": "LA"
     },
     {
       "fullName": "New York Rangers",
@@ -98,7 +99,8 @@
     },
     {
       "fullName": "San Jose Sharks",
-      "abbreviation": "SJS"
+      "abbreviation": "SJS",
+      "timmiesAbbreviation": "SJ"
     },
     {
       "fullName": "Ottawa Senators",
@@ -114,7 +116,8 @@
     },
     {
       "fullName": "New Jersey Devils",
-      "abbreviation": "NJD"
+      "abbreviation": "NJD",
+      "timmiesAbbreviation": "NJ"
     },
     {
       "fullName": "Dallas Stars",

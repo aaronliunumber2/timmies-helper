@@ -19,6 +19,7 @@ class TimmiesApp extends Component {
         this.loadSetData = this.loadSetData.bind(this);
         this.loadTeamData = this.loadTeamData.bind(this);
         this.getTeamAbbreviation = this.getTeamAbbreviation.bind(this);
+        this.getTimmiesAbbreviation = this.getTimmiesAbbreviation.bind(this);
     }
 
     componentDidMount() {
@@ -52,8 +53,15 @@ class TimmiesApp extends Component {
             for (let i = 0; i < teamData.length; i++) {
                 let fullName = teamData[i].teamFullName;                
                 let abbr = this.getTeamAbbreviation(fullName);
+                let timmiesAbbr = this.getTimmiesAbbreviation(fullName);
                 
                 teamData[i].teamAbbr = abbr;
+                if (timmiesAbbr) {
+                    teamData[i].timmiesAbbr = timmiesAbbr;
+                }
+                else {
+                    teamData[i].timmiesAbbr = abbr;
+                }
             }
             console.log(teamData)
             this.setState({ teams: teamData });
@@ -66,6 +74,13 @@ class TimmiesApp extends Component {
     getTeamAbbreviation(teamFullName) {      
         let selectedTeam = teamData.teams.find(team => team.fullName === teamFullName);
         return selectedTeam ? selectedTeam.abbreviation : "MTL"; //if it can't find it, its because of special character in montreal
+    }
+
+    getTimmiesAbbreviation(teamFullName) {
+        let selectedTeam = teamData.teams.find(team => team.fullName === teamFullName);
+        if (selectedTeam) {
+            return selectedTeam.timmiesAbbreviation ? selectedTeam.timmiesAbbreviation : "";
+        }
     }
 
 

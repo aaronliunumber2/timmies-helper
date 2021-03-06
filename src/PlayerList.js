@@ -18,13 +18,13 @@ class PlayerList extends Component {
                             let playerTeamAbbr = player.nhldata.teamAbbrevs;
                             let playerTeam = this.props.teams.find(team => team.teamAbbr === playerTeamAbbr);
                             if (playerTeam) {
-                                let game = this.props.games.find(game => game.teams.home.abbr === playerTeamAbbr || game.teams.away.abbr === playerTeamAbbr);
+                                let game = this.props.games.find(game => game.teams.home.abbr === playerTeam.timmiesAbbr || game.teams.away.abbr === playerTeam.timmiesAbbr);
                                 if (game) {
                                     if (game.teams.home.abbr === playerTeamAbbr) {
-                                        opponent = this.props.teams.find(team => team.teamAbbr === game.teams.away.abbr);
+                                        opponent = this.props.teams.find(team => team.timmiesAbbr === game.teams.away.abbr);
                                     }
                                     else {
-                                        opponent = this.props.teams.find(team => team.teamAbbr === game.teams.home.abbr);
+                                        opponent = this.props.teams.find(team => team.timmiesAbbr === game.teams.home.abbr);
                                     }
                                 }
                             }
