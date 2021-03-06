@@ -49,7 +49,7 @@ class TimmiesApp extends Component {
                         key = data.playerId
                     }
 
-                    let playerData = { firstName: player.firstName, lastName: player.lastName, key: key, nhldata: data};
+                    let playerData = { firstName: player.firstName, lastName: player.lastName, position : player.position, key: key, nhldata: data};
 
                     //shallow copy of entire array
                     let newPlayerLists = [...this.state.playerLists];
