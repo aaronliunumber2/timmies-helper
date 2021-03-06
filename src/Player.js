@@ -11,6 +11,7 @@ class Player extends Component {
         }
 
         this.getGoalsPerGame = this.getGoalsPerGame.bind(this);
+        this.getShotsPerGame = this.getShotsPerGame.bind(this);
         this.getGamesPlayed = this.getGamesPlayed.bind(this);
         this.getGoals = this.getGoals.bind(this);
     }
@@ -42,9 +43,18 @@ class Player extends Component {
         }
     }
 
+    getShotsPerGame() {
+        if (!this.props.player.nhldata || this.props.player.nhldata.gamesPlayed === 0) {
+            return 0;
+        }
+        else {
+            return (this.props.player.nhldata.shots / this.props.player.nhldata.gamesPlayed).toFixed(2);
+        }
+    }
+
 
     render() {
-        return <div>{this.props.player.firstName} {this.props.player.lastName} - {this.props.player.position} GP: {this.getGamesPlayed()} G: {this.getGoals()} G/GP: {this.getGoalsPerGame()}</div>
+        return <div>{this.props.player.firstName} {this.props.player.lastName} - {this.props.player.position} GP: {this.getGamesPlayed()} G: {this.getGoals()} G/GP: {this.getGoalsPerGame()} Shots/GP: {this.getShotsPerGame()}</div>
     }
 }
 

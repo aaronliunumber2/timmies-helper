@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\public",
-    "\\src"
+    "\\src",
+    "\\src\\data"
   ],
-  "SelectedNode": "\\public\\index.html",
+  "SelectedNode": "\\src\\PlayerLists.js",
   "PreviewInSolutionExplorer": false
 }

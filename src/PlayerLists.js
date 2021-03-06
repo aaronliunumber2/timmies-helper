@@ -15,7 +15,7 @@ class PlayerLists extends Component {
                             return(
                                 <li className='app-list' key={set.id} >
                                     <h2>List {set.id}</h2>
-                                    <PlayerList players={set.players} />
+                                    <PlayerList players={set.players} games={this.props.games} teams={this.props.teams} />
                                 </li>
                             )
                         })
