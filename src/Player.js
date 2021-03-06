@@ -54,7 +54,7 @@ class Player extends Component {
 
 
     render() {
-        return <div>{this.props.player.firstName} {this.props.player.lastName} - {this.props.player.position} GP: {this.getGamesPlayed()} G: {this.getGoals()} G/GP: {this.getGoalsPerGame()} Shots/GP: {this.getShotsPerGame()}</div>
+        return <div>{this.props.player.firstName.substring(0,1)}. {this.props.player.lastName} - {this.props.player.position} GP: {this.getGamesPlayed()} G: {this.getGoals()} G/GP: {this.getGoalsPerGame()} Shots/GP: {this.getShotsPerGame()}</div>
     }
 }
 
