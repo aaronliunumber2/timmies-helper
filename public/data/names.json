@@ -1,0 +1,17 @@
+{
+  "players" :
+  [
+    {
+      "timmies-name": "Nicholas Suzuki",
+      "nhl-name": "Nick Suzuki"
+    },
+    {
+      "timmies-name": "Tim Stutzle",
+      "nhl-name": "Tim Stützle"
+    },
+    {
+      "timmies-name": "T.J. Brodie",
+      "nhl-name": "TJ Brodie"
+    }
+  ]
+}
