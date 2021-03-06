@@ -1,0 +1,129 @@
+{
+  "teams": [
+    {
+      "fullName": "Toronto Maple Leafs",
+      "abbreviation": "TOR"
+    },
+    {
+      "fullName": "Carolina Hurricanes",
+      "abbreviation": "CAR"
+    },
+    {
+      "fullName": "Tampa Bay Lightning",
+      "abbreviation": "TBL"
+    },
+    {
+      "fullName": "Florida Panthers",
+      "abbreviation": "FLA"
+    },
+    {
+      "fullName": "Winnipeg Jets",
+      "abbreviation": "WPG"
+    },
+    {
+      "fullName": "New York Islanders",
+      "abbreviation": "NYI"
+    },
+    {
+      "fullName": "Washington Capitals",
+      "abbreviation": "WSH"
+    },
+    {
+      "fullName": "Vegas Golden Knights",
+      "abbreviation": "VGK"
+    },
+    {
+      "fullName": "Chicago Blackhawks",
+      "abbreviation": "CHI"
+    },
+    {
+      "fullName": "Edmonton Oilers",
+      "abbreviation": "EDM"
+    },
+    {
+      "fullName": "St. Louis Blues",
+      "abbreviation": "STL"
+    },
+    {
+      "fullName": "Boston Bruins",
+      "abbreviation": "BOS"
+    },
+    {
+      "fullName": "Philadelphia Flyers",
+      "abbreviation": "PHI"
+    },
+    {
+      "fullName": "Montréal Canadiens",
+      "abbreviation": "MTL"
+    },
+    {
+      "fullName": "Pittsburgh Penguins",
+      "abbreviation": "PIT"
+    },
+    {
+      "fullName": "Minnesota Wild",
+      "abbreviation": "MIN"
+    },
+    {
+      "fullName": "Colorado Avalanche",
+      "abbreviation": "COL"
+    },
+    {
+      "fullName": "Columbus Blue Jackets",
+      "abbreviation": "CBJ"
+    },
+    {
+      "fullName": "Calgary Flames",
+      "abbreviation": "CGY"
+    },
+    {
+      "fullName": "Arizona Coyotes",
+      "abbreviation": "ARI"
+    },
+    {
+      "fullName": "Vancouver Canucks",
+      "abbreviation": "VAN"
+    },
+    {
+      "fullName": "Los Angeles Kings",
+      "abbreviation": "LAK"
+    },
+    {
+      "fullName": "New York Rangers",
+      "abbreviation": "NYR"
+    },
+    {
+      "fullName": "Nashville Predators",
+      "abbreviation": "NSH"
+    },
+    {
+      "fullName": "San Jose Sharks",
+      "abbreviation": "SJS"
+    },
+    {
+      "fullName": "Ottawa Senators",
+      "abbreviation": "OTT"
+    },
+    {
+      "fullName": "Detroit Red Wings",
+      "abbreviation": "DET"
+    },
+    {
+      "fullName": "Anaheim Ducks",
+      "abbreviation": "ANA"
+    },
+    {
+      "fullName": "New Jersey Devils",
+      "abbreviation": "NJD"
+    },
+    {
+      "fullName": "Dallas Stars",
+      "abbreviation": "DAL"
+    },
+    {
+      "fullName": "Buffalo Sabres",
+      "abbreviation": "BUF"
+    }
+
+  ]
+}
