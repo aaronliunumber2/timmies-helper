@@ -28,7 +28,6 @@ class PlayerLists extends Component {
         let newShowList = [...this.state.showList];
         let show = newShowList[id - 1];
         newShowList[id - 1] = !show;
-        console.log(newShowList);
         this.setState({ showList : newShowList });
     }
 

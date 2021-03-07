@@ -64,7 +64,6 @@ class TimmiesApp extends Component {
                     teamData[i].timmiesAbbr = abbr;
                 }
             }
-            console.log(teamData)
             this.setState({ teams: teamData });
 
         }).catch((error) => {
