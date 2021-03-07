@@ -1,10 +1,9 @@
 {
-  "players" :
-  [
+  "players": [
     {
       "timmiesName": "Nicholas Suzuki",
       "firstName": "Nick",
-      "lastName" :  "Suzuki"
+      "lastName": "Suzuki"
     },
     {
       "timmiesName": "Tim Stutzle",
@@ -15,6 +14,11 @@
       "timmiesName": "T.J. Brodie",
       "firstName": "TJ",
       "lastName": "Brodie"
+    },
+    {
+      "timmiesName": "Nicholas Paul",
+      "firstName": "Nick",
+      "lastName": "Paul"
     }
   ]
 }
