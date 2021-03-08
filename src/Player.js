@@ -13,6 +13,7 @@ class Player extends Component {
 
         this.getGoalsPerGame = this.getGoalsPerGame.bind(this);
         this.getShotsPerGame = this.getShotsPerGame.bind(this);
+        this.getAverageTimeOnIce = this.getAverageTimeOnIce.bind(this)
         this.getGamesPlayed = this.getGamesPlayed.bind(this);
         this.getGoals = this.getGoals.bind(this);
 
@@ -64,17 +65,30 @@ class Player extends Component {
         }
     }
 
+    getAverageTimeOnIce() {
+        if (!this.props.player.nhldata) {
+            return 0;
+        }
+        else {
+            let minutes = Math.floor(this.props.player.nhldata.timeOnIcePerGame / 60);
+            let seconds = Math.floor(this.props.player.nhldata.timeOnIcePerGame - minutes * 60);
+            return minutes + ":" + seconds;
+
+        }
+    }
+
 
     render() {
         return (
             <Row>
-                <Col xs="3">{this.props.player.firstName.substring(0, 1)}. {this.props.player.lastName}</Col>
+                <Col xs="2">{this.props.player.firstName.substring(0, 1)}. {this.props.player.lastName}</Col>
                 <Col xs="1">{this.props.player.position}</Col>
-                <Col xs="2"> {this.getGamesPlayed()}</Col>
+                <Col xs="1"> {this.getGamesPlayed()}</Col>
                 <Col xs="1">{this.getGoals()}</Col>
                 <Col xs="1">{this.getShotsPerGame()}</Col>
+                <Col xs="1">{this.getAverageTimeOnIce()}</Col>
                 <Col xs="1">{this.getGoalsPerGame()}</Col>
-                <Col xs="2">{this.getOpponentGAA()}</Col>
+                <Col xs="1">{this.getOpponentGAA()}</Col>
             </Row>
             )
     }

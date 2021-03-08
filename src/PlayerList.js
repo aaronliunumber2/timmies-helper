@@ -13,13 +13,14 @@ class PlayerList extends Component {
         return (
             <div>
                 <Row>
-                    <Col xs="3">Name</Col>
+                    <Col xs="2">Name</Col>
                     <Col xs="1">Pos</Col>
-                    <Col xs="2">Games Played</Col>
+                    <Col xs="1">Games</Col>
                     <Col xs="1">Goals</Col>
                     <Col xs="1">Shots/GP</Col>
+                    <Col xs="1">TOI/GP</Col>
                     <Col xs="1">Goals/GP</Col>
-                    <Col xs="2">Opp. GAA</Col>
+                    <Col xs="1">Opp.GAA</Col>
                 </Row>
             {
                 this.props.players
