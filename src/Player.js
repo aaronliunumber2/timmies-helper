@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 class Player extends Component {
     constructor(props) {
@@ -14,6 +15,8 @@ class Player extends Component {
         this.getShotsPerGame = this.getShotsPerGame.bind(this);
         this.getGamesPlayed = this.getGamesPlayed.bind(this);
         this.getGoals = this.getGoals.bind(this);
+
+        this.getOpponentGAA = this.getOpponentGAA.bind(this);
     }
 
     getGamesPlayed() {
@@ -52,10 +55,27 @@ class Player extends Component {
         }
     }
 
+    getOpponentGAA() {
+        if (!this.props.opponent) {
+            return "N/A";
+        }
+        else {
+            return (this.props.opponent.goalsAgainstPerGame.toFixed(2));
+        }
+    }
+
 
     render() {
         return (
-            <div>{this.props.player.firstName.substring(0, 1)}. {this.props.player.lastName} - {this.props.player.position} GP: {this.getGamesPlayed()} G: {this.getGoals()}  Shots/GP: {this.getShotsPerGame()} G/GP: {this.getGoalsPerGame()}</div>
+            <Row>
+                <Col xs="3">{this.props.player.firstName.substring(0, 1)}. {this.props.player.lastName}</Col>
+                <Col xs="1">{this.props.player.position}</Col>
+                <Col xs="2"> {this.getGamesPlayed()}</Col>
+                <Col xs="1">{this.getGoals()}</Col>
+                <Col xs="1">{this.getShotsPerGame()}</Col>
+                <Col xs="1">{this.getGoalsPerGame()}</Col>
+                <Col xs="2">{this.getOpponentGAA()}</Col>
+            </Row>
             )
     }
 }

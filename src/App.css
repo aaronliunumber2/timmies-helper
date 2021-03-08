@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .App-logo {
@@ -30,6 +32,10 @@
 
 .app-list{
     list-style : none;
+}
+
+.player-list{
+    margin-top : 1em;
 }
 
 .missing-player{

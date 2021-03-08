@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import Player from './Player'
+import Container from 'react-bootstrap/Row'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 class PlayerList extends Component {
     constructor(props) {
@@ -7,7 +10,17 @@ class PlayerList extends Component {
     }
 
     render() {
-        return (<ul>
+        return (
+            <div>
+                <Row>
+                    <Col xs="3">Name</Col>
+                    <Col xs="1">Pos</Col>
+                    <Col xs="2">Games Played</Col>
+                    <Col xs="1">Goals</Col>
+                    <Col xs="1">Shots/GP</Col>
+                    <Col xs="1">Goals/GP</Col>
+                    <Col xs="2">Opp. GAA</Col>
+                </Row>
             {
                 this.props.players
                     .sort((a, b) => (a.nhldata ? a.nhldata.goals / a.nhldata.gamesPlayed : 0) - (b.nhldata ? b.nhldata.goals / b.nhldata.gamesPlayed : 0))
@@ -40,10 +53,11 @@ class PlayerList extends Component {
                             }
                         }
 
-                        return (<li className='app-list' key={player.key}><Player player={player} opponent={opponent}/></li>)                    
+                        return (<Player player={player} opponent={opponent} key={player.key}/>)                    
                 })
             }
-        </ul>)
+            </div>
+                )
     }
 }
 

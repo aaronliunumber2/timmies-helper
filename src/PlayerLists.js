@@ -34,20 +34,18 @@ class PlayerLists extends Component {
     render() {
         return (
             <div>
-                <ul>
                     {
                         this.props.playerLists.map((set) => {
                             return(
-                                <li className='app-list' key={set.id} >
-                                    <h2 className='list-header' onClick={(e) => this.clickHeader(set.id)}><a href="#">List {set.id}</a></h2>
+                                <div className="player-list">
+                                    <h2 className='list-header' ><a href="#" onClick={(e) => this.clickHeader(set.id)}>List {set.id}</a></h2>
                                     <div>
                                         {this.state.showList[set.id-1] && <PlayerList players={set.players} games={this.props.games} teams={this.props.teams} />}
                                     </div>
-                                </li>
+                                </div>
                             )
                         })
                     }
-                </ul>
             </div>
             )
         }
