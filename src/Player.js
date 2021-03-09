@@ -72,7 +72,7 @@ class Player extends Component {
         else {
             let minutes = Math.floor(this.props.player.nhldata.timeOnIcePerGame / 60);
             let seconds = Math.floor(this.props.player.nhldata.timeOnIcePerGame - minutes * 60);
-            return minutes + ":" + seconds;
+            return minutes + ":" + seconds.toString().padStart(2, '0');
 
         }
     }
@@ -81,7 +81,7 @@ class Player extends Component {
     render() {
         return (
             <Row>
-                <Col xs="2">{this.props.player.firstName.substring(0, 1)}. {this.props.player.lastName}</Col>
+                <Col className="player-name" xs="2">{this.props.player.firstName.substring(0, 1)}. {this.props.player.lastName}</Col>
                 <Col xs="1">{this.props.player.position}</Col>
                 <Col xs="1"> {this.getGamesPlayed()}</Col>
                 <Col xs="1">{this.getGoals()}</Col>
