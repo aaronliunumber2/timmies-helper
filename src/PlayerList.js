@@ -18,6 +18,7 @@ class PlayerList extends Component {
                     <Col xs="1">Games</Col>
                     <Col xs="1">Goals</Col>
                     <Col xs="1">Shots/GP</Col>
+                    <Col xs="1">PP.TOI/GP</Col>
                     <Col xs="1">TOI/GP</Col>
                     <Col xs="1">Goals/GP</Col>
                     <Col xs="1">Opp.GAA</Col>

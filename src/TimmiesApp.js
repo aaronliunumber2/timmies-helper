@@ -87,7 +87,7 @@ class TimmiesApp extends Component {
     loadSetData(sets) {
         sets.map((set) => {
             set.players.map((player) => {
-                //we want to see if we can find the player in the player.json table
+                //we want to see if we can find the player in the player.json table which means the tims name and nhl name do not match
                 let firstName = player.firstName.trim();
                 let lastName = player.lastName.trim();
                 let fullName = firstName + " " + lastName;
@@ -98,22 +98,32 @@ class TimmiesApp extends Component {
                 }
 
 
-                let playerLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
-                let instance = axios.create({
-                    baseURL: playerLink,
+                let basicSearchLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
+                let basicSearch = axios.create({
+                    baseURL: basicSearchLink,
                     withCredentials: false,
                     headers: {
                     }
                 });
-                const promise = instance.get();
-                promise.then((response) => {
-                    const data = response.data.data[0];
+                const basicPromise = basicSearch.get();
+                basicPromise.then((response) => {
+                    const basicData = response.data.data[0];
                     let key = player.firstName + player.lastName;
-                    if (data) {
+                    if (basicData) {
                         key = data.playerId
                     }
 
-                    let playerData = { firstName: player.firstName, lastName: player.lastName, position : player.position, key: key, nhldata: data};
+
+                    let playerIdLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
+                    let basicSearch = axios.create({
+                        baseURL: playerIdLink,
+                        withCredentials: false,
+                        headers: {
+                        }
+                    });
+
+
+                    let playerData = { firstName: player.firstName, lastName: player.lastName, position: player.position, key: key, nhldata: basicData};
 
                     //shallow copy of entire array
                     let newPlayerLists = [...this.state.playerLists];

@@ -86,6 +86,7 @@ class Player extends Component {
                 <Col xs="1"> {this.getGamesPlayed()}</Col>
                 <Col xs="1">{this.getGoals()}</Col>
                 <Col xs="1">{this.getShotsPerGame()}</Col>
+                <Col xs="1">10:10</Col>
                 <Col xs="1">{this.getAverageTimeOnIce()}</Col>
                 <Col xs="1">{this.getGoalsPerGame()}</Col>
                 <Col xs="1">{this.getOpponentGAA()}</Col>
