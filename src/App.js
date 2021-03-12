@@ -13,7 +13,7 @@ function App() {
               crossorigin="anonymous"
           />
           <header>
-            Timmies Helper App  
+            Timmies Helper  
           </header>
           <div>
               <TimmiesApp/>
