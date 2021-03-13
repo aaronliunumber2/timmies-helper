@@ -14,6 +14,8 @@ class TimmiesApp extends Component {
             games: null,
             teams : [],
             errorMessage: "",
+            currentSeason: "20202021",
+            seasonType : "regular",
         }
 
         this.loadTimmies = this.loadTimmies.bind(this);
@@ -95,6 +97,7 @@ class TimmiesApp extends Component {
                 if (jsonPlayer) {
                     firstName = jsonPlayer.firstName;
                     lastName = jsonPlayer.lastName;
+                    console.log("Found timmies player " + fullName + ". Renamed to " + firstName + " " + lastName);
                 }
 
 
@@ -110,28 +113,68 @@ class TimmiesApp extends Component {
                     const basicData = response.data.data[0];
                     let key = player.firstName + player.lastName;
                     if (basicData) {
-                        key = data.playerId
+                        key = basicData.playerId
+                    }
+                    else { 
+                        //if we can't find the nhl player just add it but with no stats
+                        let playerData = { firstName: player.firstName, lastName: player.lastName, position: player.position, key: key };
+
+                        //shallow copy of entire array
+                        let newPlayerLists = [...this.state.playerLists];
+                        let playerList = newPlayerLists[set.id - 1];
+                        playerList.players = [...playerList.players, playerData]
+                        this.setState({ playerLists: newPlayerLists });
                     }
 
 
-                    let playerIdLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
-                    let basicSearch = axios.create({
+                    let playerIdLink = "https://cors.bridged.cc/";
+                    playerIdLink = playerIdLink + "https://statsapi.web.nhl.com/api/v1/people/";
+                    playerIdLink = playerIdLink + key;
+                    playerIdLink = playerIdLink + "?expand=person.stats&stats=";
+                    if (this.state.seasonType === "regular") {
+                        playerIdLink = playerIdLink + "statsSingleSeason";
+                    }
+                    else {
+                        playerIdLink = playerIdLink + "statsSingleSeasonPlayoffs";
+                    }
+                    playerIdLink = playerIdLink + "&season=" + this.state.currentSeason;
+
+                    let playerSearch = axios.create({
                         baseURL: playerIdLink,
                         withCredentials: false,
                         headers: {
                         }
                     });
 
+                    const playerSearchPromise = playerSearch.get();
+                    playerSearchPromise.then((response) => {
+                        let playerStatsData = response.data.people[0];
 
-                    let playerData = { firstName: player.firstName, lastName: player.lastName, position: player.position, key: key, nhldata: basicData};
+                        //first check if they belong to multiple teams, if so we need to check the teams json to set the proper abbreviation
+                        if (basicData.teamAbbrevs.includes(",")) {
+                            let playerDataTeam = playerStatsData.currentTeam.name;
+                            let team = teamData.teams.find(team => team.fullName === playerDataTeam);
+                            basicData.teamAbbrevs = team.abbreviation;
+                        }
 
-                    //shallow copy of entire array
-                    let newPlayerLists = [...this.state.playerLists];
-                    let playerList = newPlayerLists[set.id - 1];
-                    playerList.players = [...playerList.players, playerData]
-                    this.setState({ playerLists: newPlayerLists });
+                        //get the correct stats from the playerStats and that is a new object in player
+                        let seasonStats =  playerStatsData.stats[0].splits[0].stat;
+
+
+                        let playerData = { firstName: player.firstName, lastName: player.lastName, position: player.position, key: key, nhldata : basicData, statsdata : seasonStats };
+
+                        //shallow copy of entire array
+                        let newPlayerLists = [...this.state.playerLists];
+                        let playerList = newPlayerLists[set.id - 1];
+                        playerList.players = [...playerList.players, playerData]
+                        this.setState({ playerLists: newPlayerLists });
+
+                    }).catch((error) => {
+                        console.log("Player stats failed for  " + player.firstName + " " + player.lastName + ". Error: " + error);
+                    });
+
                 }).catch((error) => {
-                    console.log("Player get didn't work for " + player.firstName + " " + player.lastName + ". Error: " + error)
+                    console.log("Player search didn't work for " + player.firstName + " " + player.lastName + ". Error: " + error)
                 });
             });     
         });
