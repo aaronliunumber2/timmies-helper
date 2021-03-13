@@ -7,55 +7,99 @@ import Col from 'react-bootstrap/Col'
 class PlayerList extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            sort: "goalsPerGame",
+            ascending: false,
+        }
+
+        this.sort = this.sort.bind(this);
+        this.setSort = this.setSort.bind(this);
+        this.compareString = this.compareString.bind(this);
+        this.getShotsPerGame = this.getShotsPerGame.bind(this);
+    }
+
+    sort(a, b) {
+
+        let sortFactor = 1;
+        if (this.state.ascending) {
+            sortFactor = -1;
+        }
+
+        if (this.state.sort === "name") {
+            return this.compareString(a.firstName, b.firstName) * sortFactor;
+        }    
+        else if (this.state.sort === "position") {
+            return this.compareString(a.position, b.position) * sortFactor;
+        }    
+        else if (this.state.sort === "games") {
+            return (a.nhldata ? a.nhldata.gamesPlayed : 0) - (b.nhldata ? b.nhldata.gamesPlayed : 0) * sortFactor;
+        }    
+        else if (this.state.sort === "goals") {
+            return (a.nhldata ? a.nhldata.goals : 0) - (b.nhldata ? b.nhldata.goals : 0) * sortFactor;
+        }        
+        else if (this.state.sort === "shotsPerGame") {
+            return this.getShotsPerGame(a) - this.getShotsPerGame(b) * sortFactor;
+        }
+        else if (this.state.sort === "ppTimeOnIce") {
+            return this.compareString((a.statsdata ? a.statsdata.powerPlayTimeOnIcePerGame : 0), (b.statsdata ? b.statsdata.powerPlayTimeOnIcePerGame : 0)) * sortFactor;
+        }
+        else if (this.state.sort === "timeOnIce") {
+            return this.compareString((a.statsdata ? a.statsdata.timeOnIcePerGame : 0), (b.statsdata ? b.statsdata.timeOnIcePerGame : 0)) * sortFactor;
+        }
+        else if (this.state.sort === "opponentGAA") {
+            return (a.opponent ? a.opponent.goalsAgainstPerGame : 0) - (b.opponent ? b.opponent.goalsAgainstPerGame : 0) * sortFactor;
+        }
+        else  //(this.state.sort === "goalsPerGame")  default
+        {
+            return (a.nhldata ? a.nhldata.goals / a.nhldata.gamesPlayed : 0) - (b.nhldata ? b.nhldata.goals / b.nhldata.gamesPlayed : 0) * sortFactor;
+        }
+    }
+
+    setSort(sort) {
+        if (sort === this.state.sort) {
+            this.setState({ ascending: !this.state.ascending });
+        }
+        else {
+            this.setState({ sort, ascending : false});
+        }
+    }
+
+    compareString(a, b) {
+        if (a < b) { return -1; }
+        if (a > b) { return 1; }
+        return 0;
+    }
+
+    getShotsPerGame(player) {
+        if (!player.nhldata || player.nhldata.gamesPlayed === 0) {
+            return 0;
+        }
+        else {
+            return (player.nhldata.shots / player.nhldata.gamesPlayed).toFixed(2);
+        }
     }
 
     render() {
         return (
             <div>
                 <Row>
-                    <Col xs="2">Name</Col>
-                    <Col xs="1">Pos</Col>
-                    <Col xs="1">Games</Col>
-                    <Col xs="1">Goals</Col>
-                    <Col xs="1">Shots/GP</Col>
-                    <Col xs="1">PP.TOI/GP</Col>
-                    <Col xs="1">TOI/GP</Col>
-                    <Col xs="1">Goals/GP</Col>
-                    <Col xs="1">Opp.GAA</Col>
+                    <Col xs="2"><a href="#" onClick={(e) => this.setSort("name")}>Name</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("position")}>Pos</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("games")}>Games</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("goals")}>Goals</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("shotsPerGame")}>Shots/GP</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("ppTimeOnIce")}>PP.TOI/GP</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("timeOnIce")}>TOI/GP</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("goalsPerGame")}>Goals/GP</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("opponentGAA")}>Opp.GAA</a></Col>
                 </Row>
             {
                 this.props.players
-                    .sort((a, b) => (a.nhldata ? a.nhldata.goals / a.nhldata.gamesPlayed : 0) - (b.nhldata ? b.nhldata.goals / b.nhldata.gamesPlayed : 0))
+                    .sort((a, b) => this.sort(a,b))
                     .reverse()
                     .map((player, index) => {
-                        let opponent = null;
-                        if (player.nhldata) {
-                            let playerTeamAbbr = player.nhldata.teamAbbrevs;
-                            let playerTeam = this.props.teams.find(team => team.teamAbbr === playerTeamAbbr);
-                            if (playerTeam) {
-                                let game = this.props.games.find(game => game.teams.home.abbr === playerTeam.timmiesAbbr || game.teams.away.abbr === playerTeam.timmiesAbbr);
-                                if (game) {
-                                    if (game.teams.home.abbr === playerTeamAbbr) {
-                                        opponent = this.props.teams.find(team => team.timmiesAbbr === game.teams.away.abbr);
-                                    }
-                                    else {
-                                        opponent = this.props.teams.find(team => team.timmiesAbbr === game.teams.home.abbr);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (!opponent) {
-                            if (!player.nhldata) {
-                                console.log("No NHL data for " + player.firstName + " " + player.lastName);
-                            }
-                            else {
-                                console.log("Failed to get opponent for " + player.firstName + " " + player.lastName);
-                                console.log("Team Abbr: " + player.nhldata.teamAbbrevs);
-                            }
-                        }
-
-                        return (<Player player={player} opponent={opponent} key={player.key}/>)                    
+                        return (<Player player={player} key={player.key}/>)                    
                 })
             }
             </div>

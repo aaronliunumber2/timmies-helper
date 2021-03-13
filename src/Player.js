@@ -58,11 +58,11 @@ class Player extends Component {
     }
 
     getOpponentGAA() {
-        if (!this.props.opponent) {
+        if (!this.props.player.opponent) {
             return "N/A";
         }
         else {
-            return (this.props.opponent.goalsAgainstPerGame.toFixed(2));
+            return (this.props.player.opponent.goalsAgainstPerGame.toFixed(2));
         }
     }
 

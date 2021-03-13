@@ -21,23 +21,22 @@ class TimmiesApp extends Component {
         this.loadTimmies = this.loadTimmies.bind(this);
         this.loadSetData = this.loadSetData.bind(this);
         this.loadTeamData = this.loadTeamData.bind(this);
+        this.getPlayerOpponent = this.getPlayerOpponent.bind(this);
         this.getTeamAbbreviation = this.getTeamAbbreviation.bind(this);
         this.getTimmiesAbbreviation = this.getTimmiesAbbreviation.bind(this);
     }
 
     componentDidMount() {
-        this.loadTimmies();
         this.loadTeamData();
     }
 
     loadTimmies() {
         const promise = axios.post("https://cors.bridged.cc/http://ec2-54-158-170-220.compute-1.amazonaws.com/api/v1/players");
         promise.then((response) => {
-            this.setState({ loading: false, games: response.data.games });
-            this.loadSetData(response.data.sets);
+            this.setState({ loading: false, games: response.data.games }, this.loadSetData(response.data.sets));
         })
             .catch((error) => {
-                this.setState({ errorMessage: "Something went wrong. Error: " + error })
+                this.setState({ errorMessage: "Something went wrong loading timmies data. Error: " + error })
             });
     }
 
@@ -66,7 +65,9 @@ class TimmiesApp extends Component {
                     teamData[i].timmiesAbbr = abbr;
                 }
             }
-            this.setState({ teams: teamData });
+            this.setState({ teams: teamData }, this.loadTimmies());
+
+
 
         }).catch((error) => {
                     console.log("Unable to get team stats from NHL website. Error: " + error)
@@ -85,6 +86,31 @@ class TimmiesApp extends Component {
         }
     }
 
+    getPlayerOpponent(basicData) {
+        let opponent = null;
+        if (basicData) {
+            let playerTeamAbbr = basicData.teamAbbrevs;
+            let playerTeam = this.state.teams.find(team => team.teamAbbr === playerTeamAbbr);
+            if (playerTeam) {
+                let game = this.state.games.find(game => game.teams.home.abbr === playerTeam.timmiesAbbr || game.teams.away.abbr === playerTeam.timmiesAbbr);
+                if (game) {
+                    if (game.teams.home.abbr === playerTeamAbbr) {
+                        opponent = this.state.teams.find(team => team.timmiesAbbr === game.teams.away.abbr);
+                    }
+                    else {
+                        opponent = this.state.teams.find(team => team.timmiesAbbr === game.teams.home.abbr);
+                    }
+                }
+            }
+        }
+
+        if (!opponent) {
+            console.log("Failed to get opponent for " + basicData.skaterFullName);
+            console.log("Team Abbr: " + basicData.teamAbbrevs);
+
+        }
+        return opponent;
+    }
 
     loadSetData(sets) {
         sets.map((set) => {
@@ -99,8 +125,7 @@ class TimmiesApp extends Component {
                     lastName = jsonPlayer.lastName;
                     console.log("Found timmies player " + fullName + ". Renamed to " + firstName + " " + lastName);
                 }
-
-
+                //get basic nhl data
                 let basicSearchLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
                 let basicSearch = axios.create({
                     baseURL: basicSearchLink,
@@ -158,10 +183,16 @@ class TimmiesApp extends Component {
                         }
 
                         //get the correct stats from the playerStats and that is a new object in player
-                        let seasonStats =  playerStatsData.stats[0].splits[0].stat;
+                        let seasonStats = playerStatsData.stats[0].splits[0].stat;
+
+                        //get the opponent from the team list
+                        let opponent = null;
+                        if (basicData) {
+                            opponent = this.getPlayerOpponent(basicData);
+                        }
 
 
-                        let playerData = { firstName: player.firstName, lastName: player.lastName, position: player.position, key: key, nhldata : basicData, statsdata : seasonStats };
+                        let playerData = { firstName: player.firstName, lastName: player.lastName, position: player.position, key: key, nhldata : basicData, statsdata : seasonStats, opponent : opponent };
 
                         //shallow copy of entire array
                         let newPlayerLists = [...this.state.playerLists];
