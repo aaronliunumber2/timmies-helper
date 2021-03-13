@@ -56,7 +56,8 @@ class PlayerList extends Component {
         }
     }
 
-    setSort(sort) {
+    setSort(e, sort) {
+        e.preventDefault();
         if (sort === this.state.sort) {
             this.setState({ ascending: !this.state.ascending });
         }
@@ -84,15 +85,15 @@ class PlayerList extends Component {
         return (
             <div>
                 <Row>
-                    <Col xs="2"><a href="#" onClick={(e) => this.setSort("name")}>Name</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("position")}>Pos</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("games")}>Games</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("goals")}>Goals</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("shotsPerGame")}>Shots/GP</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("ppTimeOnIce")}>PP.TOI/GP</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("timeOnIce")}>TOI/GP</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("goalsPerGame")}>Goals/GP</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort("opponentGAA")}>Opp.GAA</a></Col>
+                    <Col xs="2"><a href="#" onClick={(e) => this.setSort(e, "name")}>Name</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "position")}>Pos</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "games")}>Games</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "goals")}>Goals</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "shotsPerGame")}>Shots/GP</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "ppTimeOnIce")}>PP.TOI/GP</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "timeOnIce")}>TOI/GP</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "goalsPerGame")}>Goals/GP</a></Col>
+                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "opponentGAA")}>Opp.GAA</a></Col>
                 </Row>
             {
                 this.props.players
