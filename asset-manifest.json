@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/timmies-helper/static/css/main.84fe82a0.chunk.css",
-    "main.js": "/timmies-helper/static/js/main.64b421ec.chunk.js",
-    "main.js.map": "/timmies-helper/static/js/main.64b421ec.chunk.js.map",
+    "main.css": "/timmies-helper/static/css/main.99225add.chunk.css",
+    "main.js": "/timmies-helper/static/js/main.7a1cb7e1.chunk.js",
+    "main.js.map": "/timmies-helper/static/js/main.7a1cb7e1.chunk.js.map",
     "runtime-main.js": "/timmies-helper/static/js/runtime-main.da251296.js",
     "runtime-main.js.map": "/timmies-helper/static/js/runtime-main.da251296.js.map",
     "static/css/2.150d169a.chunk.css": "/timmies-helper/static/css/2.150d169a.chunk.css",
@@ -12,14 +12,14 @@
     "static/js/3.906a1b14.chunk.js.map": "/timmies-helper/static/js/3.906a1b14.chunk.js.map",
     "index.html": "/timmies-helper/index.html",
     "static/css/2.150d169a.chunk.css.map": "/timmies-helper/static/css/2.150d169a.chunk.css.map",
-    "static/css/main.84fe82a0.chunk.css.map": "/timmies-helper/static/css/main.84fe82a0.chunk.css.map",
+    "static/css/main.99225add.chunk.css.map": "/timmies-helper/static/css/main.99225add.chunk.css.map",
     "static/js/2.d2338230.chunk.js.LICENSE.txt": "/timmies-helper/static/js/2.d2338230.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.da251296.js",
     "static/css/2.150d169a.chunk.css",
     "static/js/2.d2338230.chunk.js",
-    "static/css/main.84fe82a0.chunk.css",
-    "static/js/main.64b421ec.chunk.js"
+    "static/css/main.99225add.chunk.css",
+    "static/js/main.7a1cb7e1.chunk.js"
   ]
 }
