@@ -13,10 +13,13 @@ function App() {
               crossOrigin="anonymous"
           />
           <header>
-            Timmies Helper  
+            Timmies Hockey Helper  
           </header>
           <div>
-              <TimmiesApp/>
+              <TimmiesApp />
+              <div className="footer">
+                  Questions? Suggestions? Find me on <a href={"//www.twitter.com/Zorbane"} target="_blank">Twitter</a>
+              </div>
           </div>
       </div>
   );

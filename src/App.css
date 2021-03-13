@@ -48,6 +48,10 @@
     text-align: left;
 }
 
+.footer {
+    margin-top : 1em;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
