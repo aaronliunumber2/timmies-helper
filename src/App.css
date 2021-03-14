@@ -48,6 +48,11 @@
     text-align: left;
 }
 
+.error-message{
+    color: red;
+    margin-top: 1em;
+}
+
 .footer {
     margin-top : 1em;
 }

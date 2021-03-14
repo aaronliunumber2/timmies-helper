@@ -36,7 +36,7 @@ class TimmiesApp extends Component {
             this.setState({ loading: false, games: response.data.games }, this.loadSetData(response.data.sets));
         })
             .catch((error) => {
-                this.setState({ errorMessage: "Something went wrong loading timmies data. Error: " + error })
+                this.setState({ errorMessage: "Sorry!  Unable to load Tims Hockey Challenge Data.  Please try again later." });
             });
     }
 
@@ -215,11 +215,11 @@ class TimmiesApp extends Component {
 
         let display = <div>ok</div>
 
-        if (this.state.loading) {
-            display = <div><img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" alt="loading..." /></div>
+        if (this.state.errorMessage) {
+            display = <div className="error-message">{this.state.errorMessage}</div>
         }
-        else if (this.state.errorMessage) {
-            display = <div>{this.state.errorMessage}</div>
+        else if (this.state.loading) {
+            display = <div><img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" alt="loading..." /></div>
         }
         else {
             display = <div><PlayerLists playerLists={this.state.playerLists} games={this.state.games} teams={this.state.teams}/></div>
