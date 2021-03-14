@@ -3,8 +3,9 @@
     "",
     "\\public",
     "\\src",
-    "\\src\\data"
+    "\\src\\data",
+    "\\src\\img"
   ],
-  "SelectedNode": "\\src\\PlayerLists.js",
+  "SelectedNode": "\\src\\img",
   "PreviewInSolutionExplorer": false
 }

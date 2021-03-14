@@ -8,7 +8,7 @@
     {
       "timmiesName": "Tim Stutzle",
       "firstName": "Tim",
-      "lastName": "Stützle"
+      "lastName": "St\u00FCtzle"
     },
     {
       "timmiesName": "T.J. Brodie",
@@ -21,9 +21,14 @@
       "lastName": "Paul"
     },
     {
+      "timmiesName": "Mathew Dumba",
+      "firstName": "Matt",
+      "lastName": "Dumba"
+    },
+    {
       "timmiesName": "Alexis Lafreniere",
       "firstName": "Alexis",
-      "lastName": "Lafrenière"
+      "lastName": "Lafreni\u00E8re"
     }
   ]
 }
