@@ -2,7 +2,7 @@
   "name": "timmies-helper",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://aaronliunumber2.github.io/timmies-helper",
+  "homepage": "http://timmies.zorbane.comr",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
