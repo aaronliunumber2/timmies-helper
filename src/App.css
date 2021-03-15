@@ -59,6 +59,14 @@
     margin-top : 1em;
 }
 
+.stats-list, .app-header, .footer{
+    font-size: 1.1vw;
+}
+
+.list-header{
+    font-size: 2vw;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

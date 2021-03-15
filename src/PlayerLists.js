@@ -39,7 +39,7 @@ class PlayerLists extends Component {
                             return (
                                 <div className="player-list" key={set.id}>
                                     <h2 className='list-header' ><a href="#" onClick={(e) => this.clickHeader(set.id)}>List {set.id}</a></h2>
-                                    <div>
+                                    <div className='stats-list'>
                                         {this.state.showList[set.id-1] && <PlayerList players={set.players} games={this.props.games} teams={this.props.teams} />}
                                     </div>
                                 </div>

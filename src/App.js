@@ -12,14 +12,14 @@ function App() {
               integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
               crossOrigin="anonymous"
           />
-          <header>
-            Timmies Hockey Helper  
+          <header className="app-header">
+            Tim Horton's Hockey Challenge Helper
           </header>
           <div>
               <TimmiesApp />
-              <div className="footer">
+              <footer className="footer" >
                   Questions? Suggestions? Find me on <a href={"//www.twitter.com/Zorbane"} target="_blank">Twitter</a>
-              </div>
+              </footer>
           </div>
       </div>
   );
