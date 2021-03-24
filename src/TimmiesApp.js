@@ -125,6 +125,10 @@ class TimmiesApp extends Component {
                     lastName = jsonPlayer.lastName;
                     console.log("Found timmies player " + fullName + ". Renamed to " + firstName + " " + lastName);
                 }
+
+
+
+
                 //get basic nhl data
                 let basicSearchLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
                 let basicSearch = axios.create({
@@ -138,7 +142,7 @@ class TimmiesApp extends Component {
                     const basicData = response.data.data[0];
                     let key = player.firstName + player.lastName;
                     if (basicData) {
-                        key = basicData.playerId
+                        key = basicData.playerId;
                     }
                     else { 
                         //if we can't find the nhl player just add it but with no stats
@@ -191,8 +195,24 @@ class TimmiesApp extends Component {
                             opponent = this.getPlayerOpponent(basicData);
                         }
 
+                        //add goalsPerGame and shotsPerGame to basic data
+                        basicData.goalsPerGame = (basicData.goals / basicData.gamesPlayed).toFixed(2);
+                        basicData.shotsPerGame = (basicData.shots / basicData.gamesPlayed).toFixed(2);
+                        player.fullName = fullName;
+                        player.shortName = firstName.substring(0, 1) + " " + lastName;
 
-                        let playerData = { firstName: player.firstName, lastName: player.lastName, position: player.position, key: key, nhldata : basicData, statsdata : seasonStats, opponent : opponent };
+                        let playerData = {
+                            firstName: player.firstName,
+                            lastName: player.lastName,
+                            fullName: player.firstName + " " + player.lastName,
+                            shortName : firstName.substring(0, 1) + ". " + lastName,
+                            position: player.position,
+                            key: key,
+                            id: key,
+                            nhldata: basicData,
+                            statsdata: seasonStats,
+                            opponent: opponent
+                        };
 
                         //shallow copy of entire array
                         let newPlayerLists = [...this.state.playerLists];
@@ -201,7 +221,7 @@ class TimmiesApp extends Component {
                         this.setState({ playerLists: newPlayerLists });
 
                     }).catch((error) => {
-                        console.log("Player stats failed for  " + player.firstName + " " + player.lastName + ". Error: " + error);
+                        console.log("Player stats failed for " + player.firstName + " " + player.lastName + ". Error: " + error);
                     });
 
                 }).catch((error) => {

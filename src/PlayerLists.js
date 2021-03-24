@@ -6,11 +6,13 @@ class PlayerLists extends Component {
         super(props);
 
         this.state = {
-            showList: []
+            showList: [],
+            columns : null
         };
 
         this.clickHeader = this.clickHeader.bind(this);
     }
+
 
     componentDidMount() {
         //initialize the showList array
@@ -19,7 +21,71 @@ class PlayerLists extends Component {
             showList = [...showList, true];
         }
 
-        this.setState({ showList });
+        const columns = [
+            {
+                Header: " ",
+                id: "name",
+                columns: [
+                    {
+                        Header: "Name",
+                        id: "playerName",
+                        accessor: "shortName",
+                        className: "player-name"
+                    },
+                    {
+                        Header: "Pos",
+                        id: "playerPosition",
+                        accessor: "position",
+                        className: "short-stat"
+                    },
+                    {
+                        Header: "GP",
+                        id: "playerGames",
+                        accessor: "nhldata.gamesPlayed",
+                        className: "short-stat"
+                    },
+                    {
+                        Header: "G",
+                        id: "playerGoals",
+                        accessor: "nhldata.goals",
+                        className: "short-stat"
+                    },
+                    {
+                        Header: "Shots/GP",
+                        id: "playerShotsPerGame",
+                        accessor: "nhldata.shotsPerGame",
+                        className: "long-stat"
+                    },
+                    {
+                        Header: "PP.TOI/GP",
+                        id: "playerPPTimePerGame",
+                        accessor: "statsdata.powerPlayTimeOnIcePerGame",
+                        className: "long-stat"
+                    },
+                    {
+                        Header: "TOI/GP",
+                        id: "playerTimePerGame",
+                        accessor: "statsdata.timeOnIcePerGame",
+                        className: "long-stat"
+                    },
+                    {
+                        Header: "Goals/GP",
+                        id: "playerGoalsPerGame",
+                        accessor: "nhldata.goalsPerGame",
+                        className: "short-stat"
+                    },
+                    {
+                        Header: "Opp.GAA",
+                        id: "playerOppGAA",
+                        accessor: "opponent.goalsAgainstPerGame",
+                        Cell: props => <div>{props.value.toFixed(2)}</div>,
+                        className: "long-stat"
+                    }
+
+                ]
+            }];
+
+        this.setState({ showList, columns });
     }
 
 
@@ -40,7 +106,7 @@ class PlayerLists extends Component {
                                 <div className="player-list" key={set.id}>
                                     <h2 className='list-header' ><a href="#" onClick={(e) => this.clickHeader(set.id)}>List {set.id}</a></h2>
                                     <div className='stats-list'>
-                                        {this.state.showList[set.id-1] && <PlayerList players={set.players} games={this.props.games} teams={this.props.teams} />}
+                                        {this.state.showList[set.id - 1] && <PlayerList data={set.players} columns={this.state.columns}/>}
                                     </div>
                                 </div>
                             )

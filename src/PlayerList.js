@@ -1,111 +1,56 @@
 import React, { Component } from 'react'
-import Player from './Player'
-import Container from 'react-bootstrap/Row'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import { useTable, useSortBy } from "react-table";
 
-class PlayerList extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            sort: "goalsPerGame",
-            ascending: false,
-        }
+export default function PlayerList({ columns, data }) {
 
-        this.sort = this.sort.bind(this);
-        this.setSort = this.setSort.bind(this);
-        this.compareString = this.compareString.bind(this);
-        this.getShotsPerGame = this.getShotsPerGame.bind(this);
-    }
-
-    sort(a, b) {
-
-        let sortFactor = 1;
-        if (this.state.ascending) {
-            sortFactor = -1;
-        }
-
-        if (this.state.sort === "name") {
-            return this.compareString(a.firstName, b.firstName) * sortFactor;
-        }    
-        else if (this.state.sort === "position") {
-            return this.compareString(a.position, b.position) * sortFactor;
-        }    
-        else if (this.state.sort === "games") {
-            return (a.nhldata ? a.nhldata.gamesPlayed : 0) - (b.nhldata ? b.nhldata.gamesPlayed : 0) * sortFactor;
-        }    
-        else if (this.state.sort === "goals") {
-            return (a.nhldata ? a.nhldata.goals : 0) - (b.nhldata ? b.nhldata.goals : 0) * sortFactor;
-        }        
-        else if (this.state.sort === "shotsPerGame") {
-            return this.getShotsPerGame(a) - this.getShotsPerGame(b) * sortFactor;
-        }
-        else if (this.state.sort === "ppTimeOnIce") {
-            return this.compareString((a.statsdata ? a.statsdata.powerPlayTimeOnIcePerGame : 0), (b.statsdata ? b.statsdata.powerPlayTimeOnIcePerGame : 0)) * sortFactor;
-        }
-        else if (this.state.sort === "timeOnIce") {
-            return this.compareString((a.statsdata ? a.statsdata.timeOnIcePerGame : 0), (b.statsdata ? b.statsdata.timeOnIcePerGame : 0)) * sortFactor;
-        }
-        else if (this.state.sort === "opponentGAA") {
-            return (a.opponent ? a.opponent.goalsAgainstPerGame : 0) - (b.opponent ? b.opponent.goalsAgainstPerGame : 0) * sortFactor;
-        }
-        else  //(this.state.sort === "goalsPerGame")  default
-        {
-            return (a.nhldata ? a.nhldata.goals / a.nhldata.gamesPlayed : 0) - (b.nhldata ? b.nhldata.goals / b.nhldata.gamesPlayed : 0) * sortFactor;
-        }
-    }
-
-    setSort(e, sort) {
-        e.preventDefault();
-        if (sort === this.state.sort) {
-            this.setState({ ascending: !this.state.ascending });
-        }
-        else {
-            this.setState({ sort, ascending : false});
-        }
-    }
-
-    compareString(a, b) {
-        if (a < b) { return -1; }
-        if (a > b) { return 1; }
-        return 0;
-    }
-
-    getShotsPerGame(player) {
-        if (!player.nhldata || player.nhldata.gamesPlayed === 0) {
-            return 0;
-        }
-        else {
-            return (player.nhldata.shots / player.nhldata.gamesPlayed).toFixed(2);
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <Row>
-                    <Col xs="2"><a href="#" onClick={(e) => this.setSort(e, "name")}>Name</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "position")}>Pos</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "games")}>Games</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "goals")}>Goals</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "shotsPerGame")}>Shots/GP</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "ppTimeOnIce")}>PP.TOI/GP</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "timeOnIce")}>TOI/GP</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "goalsPerGame")}>Goals/GP</a></Col>
-                    <Col xs="1"><a href="#" onClick={(e) => this.setSort(e, "opponentGAA")}>Opp.GAA</a></Col>
-                </Row>
+    const {
+        getTableProps, // table props from react-table
+        getTableBodyProps, // table body props from react-table
+        headerGroups, // headerGroups, if your table has groupings
+        rows, // rows for the table based on the data passed
+        prepareRow // Prepare the row (this function needs to be called for each row before getting the row props)
+    } = useTable({
+        columns,
+        data,
+        initialState:
             {
-                this.props.players
-                    .sort((a, b) => this.sort(a,b))
-                    .reverse()
-                    .map((player, index) => {
-                        return (<Player player={player} key={player.key}/>)                    
-                })
+                sortBy: [
+                    {
+                        id: "playerGoalsPerGame",
+                        desc: true,
+                    }
+                ]
             }
-            </div>
-                )
-    }
-}
+        },
+        useSortBy
+    );
 
-export default PlayerList;
+
+
+    return(
+        <table {...getTableProps()}>
+            <thead>
+                {headerGroups.map(headerGroup => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                        {headerGroup.headers.map(column => (
+                            <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}</th>
+                        ))}
+                    </tr>
+                ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+                {rows.map((row, i) => {
+                    prepareRow(row);
+                    return (
+                        <tr {...row.getRowProps()}>
+                            {row.cells.map(cell => {
+                                return <td {...cell.getCellProps([{className: cell.column.className}])}>{cell.render("Cell")}</td>;
+                            })}
+                        </tr>
+                    );
+                })}
+            </tbody>
+        </table>
+    );
+}

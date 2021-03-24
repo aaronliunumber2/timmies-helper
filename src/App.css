@@ -40,12 +40,12 @@
     margin-top : 1em;
 }
 
-.missing-player{
-    color : red;
+.stats-list{
+    overflow-x: auto;
 }
 
-.player-name {
-    text-align: left;
+.missing-player{
+    color : red;
 }
 
 .error-message{
@@ -59,14 +59,6 @@
     margin-top : 1em;
 }
 
-.stats-list, .app-header, .footer{
-    font-size: 1.1vw;
-}
-
-.list-header{
-    font-size: 2vw;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -74,4 +66,57 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/*react-table stuff*/
+
+table {
+    border-spacing: 0;
+    border: 1px solid #f2f2f2;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin: 0 auto;
+}
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td {
+    border: 1px solid #f2f2f4;
+}
+
+.player-name {
+    width: 150px;
+    padding-left: 5px;
+    text-align: left;
+    position: sticky;
+    left: 0px;
+    z-index: 40;
+    background-color: inherit;
+}
+
+.short-stat{
+    width : 40px;
+}
+
+.long-stat{
+    width: 85px;
+}
+
+thead > tr {
+    position: sticky;
+    left:0px;
+
+}
+
+th:first-child {
+    position: sticky;
+    left: 0px;
+    z-index: 50;
+    background-color: inherit;
 }
