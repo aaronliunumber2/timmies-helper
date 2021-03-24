@@ -1,4 +1,5 @@
 import './App.css';
+import paypallogo from './paypal.png';
 import Container from 'react-bootstrap/Container'
 import TimmiesApp from './TimmiesApp'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,7 +19,8 @@ function App() {
           <div>
               <TimmiesApp />
               <footer className="footer" >
-                  Questions? Suggestions? Find me on <a href={"//www.twitter.com/Zorbane"} target="_blank">Twitter</a>
+                  <div>Questions? Suggestions? Find me on <a href={"//www.twitter.com/Zorbane"} target="_blank">Twitter</a></div>
+                  <div className="timmies-please">Buy me Timmies? <a href='https://www.paypal.com/paypalme/zorbane/' target="_blank"><img className="timmies-logo" src={paypallogo}/></a></div>
               </footer>
           </div>
       </div>
