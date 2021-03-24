@@ -30,7 +30,8 @@ class PlayerLists extends Component {
                         Header: "Name",
                         id: "playerName",
                         accessor: "shortName",
-                        className: "player-name"
+                        className: "player-name",
+                        Cell: props => <div><img className="team-logo" src={process.env.PUBLIC_URL + "/logos/" + props.row.original.nhldata.teamAbbrevs + ".png"}/> {props.value}</div>,
                     },
                     {
                         Header: "Pos",
@@ -78,7 +79,7 @@ class PlayerLists extends Component {
                         Header: "Opp.GAA",
                         id: "playerOppGAA",
                         accessor: "opponent.goalsAgainstPerGame",
-                        Cell: props => <div>{props.value.toFixed(2)}</div>,
+                        Cell: props => <div><img className="team-logo" src={process.env.PUBLIC_URL + "/logos/" + props.row.original.opponent.teamAbbr + ".png"} /> {props.value.toFixed(2)}</div>,
                         className: "long-stat"
                     }
 
