@@ -86,16 +86,13 @@
   }
 }
 
-.timmies-please{
-    display:none;
-}
-
-.timmies-logo{
+.paypal-logo{
     height: 24px;
 }
 
-.team-logo{
-    height: 24px;
+.team-logo {
+    max-width: 20px;
+    vertical-align: middle;
 }
 
 /*react-table stuff*/

@@ -38,8 +38,8 @@ export default function PlayerList({ columns, data }) {
                                 className={
                                     column.isSorted
                                         ? column.isSortedDesc
-                                            ? "sort-desc"
-                                            : "sort-asc"
+                                            ? "sort-descc"
+                                            : "sort-ascc"
                                         : ""
                                 }
                             >{column.render("Header")}</th>
