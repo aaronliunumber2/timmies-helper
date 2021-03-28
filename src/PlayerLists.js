@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Collapse } from 'react-bootstrap'
 import PlayerList from './PlayerList'
 
 class PlayerLists extends Component {
@@ -106,9 +107,11 @@ class PlayerLists extends Component {
                             return (
                                 <div className="player-list" key={set.id}>
                                     <h2 className='list-header' ><a href="#" onClick={(e) => this.clickHeader(set.id)}>List {set.id}</a></h2>
-                                    <div className='stats-list'>
-                                        {this.state.showList[set.id - 1] && <PlayerList data={set.players} columns={this.state.columns}/>}
-                                    </div>
+                                    <Collapse in={this.state.showList[set.id - 1]}>
+                                        <div className='stats-list'>
+                                            {this.state.columns && <PlayerList data={set.players} columns={this.state.columns}/>}
+                                        </div>
+                                    </Collapse>
                                 </div>
                             )
                         })

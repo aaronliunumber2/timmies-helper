@@ -11,6 +11,8 @@ class TimmiesApp extends Component {
         this.state = {
             loading: true,
             playerLists: [{ id: "1", players: [] }, { id: "2", players: [] }, { id: "3", players: [] }],
+            injuries : [],
+            injuredPlayer : false,
             games: null,
             teams : [],
             errorMessage: "",
@@ -24,20 +26,13 @@ class TimmiesApp extends Component {
         this.getPlayerOpponent = this.getPlayerOpponent.bind(this);
         this.getTeamAbbreviation = this.getTeamAbbreviation.bind(this);
         this.getTimmiesAbbreviation = this.getTimmiesAbbreviation.bind(this);
+
+        this.loadTSNInjuryData = this.loadTSNInjuryData.bind(this);
+
     }
 
     componentDidMount() {
         this.loadTeamData();
-    }
-
-    loadTimmies() {
-        const promise = axios.post("https://cors.bridged.cc/http://ec2-54-158-170-220.compute-1.amazonaws.com/api/v1/players");
-        promise.then((response) => {
-            this.setState({ loading: false, games: response.data.games }, this.loadSetData(response.data.sets));
-        })
-            .catch((error) => {
-                this.setState({ errorMessage: "Sorry!  Unable to load Tims Hockey Challenge Data.  Please try again later." });
-            });
     }
 
     loadTeamData() {
@@ -65,13 +60,35 @@ class TimmiesApp extends Component {
                     teamData[i].timmiesAbbr = abbr;
                 }
             }
-            this.setState({ teams: teamData }, this.loadTimmies());
+            this.setState({ teams: teamData }, this.loadTSNInjuryData());
 
 
 
         }).catch((error) => {
-                    console.log("Unable to get team stats from NHL website. Error: " + error)
+            console.log("Unable to get team stats from NHL website. Error: " + error)
+            this.setState({ errorMessage: "Sorry!  Unable to load data from the NHL website.  Please try again later." });
                 });
+    }
+
+    loadTSNInjuryData() {
+        const promise = axios.get("https://stats.tsn.ca/GET/urn:tsn:nhl:injuries?type=json");
+        promise.then((response) => {
+            console.log(response.data);
+            this.setState({ injuries: response.data.InjuryReports }, this.loadTimmies());
+        })
+            .catch((error) => {
+                this.loadTimmies()
+            });
+    }
+
+    loadTimmies() {
+        const promise = axios.post("https://cors.bridged.cc/http://ec2-54-158-170-220.compute-1.amazonaws.com/api/v1/players");
+        promise.then((response) => {
+            this.setState({ loading: false, games: response.data.games }, this.loadSetData(response.data.sets));
+        })
+            .catch((error) => {
+                this.setState({ errorMessage: "Sorry!  Unable to load Tims Hockey Challenge Data.  Please try again later." });
+            });
     }
 
     getTeamAbbreviation(teamFullName) {      
@@ -242,7 +259,11 @@ class TimmiesApp extends Component {
             display = <div><img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" alt="loading..." /></div>
         }
         else {
-            display = <div><PlayerLists playerLists={this.state.playerLists} games={this.state.games} teams={this.state.teams}/></div>
+            display =
+                <div>
+                    
+                    <PlayerLists playerLists={this.state.playerLists} games={this.state.games} teams={this.state.teams} />
+                </div>
         }
         return (display);
     }
