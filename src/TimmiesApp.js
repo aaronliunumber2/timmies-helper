@@ -73,7 +73,6 @@ class TimmiesApp extends Component {
     loadTSNInjuryData() {
         const promise = axios.get("https://stats.tsn.ca/GET/urn:tsn:nhl:injuries?type=json");
         promise.then((response) => {
-            console.log(response.data);
             this.setState({ injuries: response.data.InjuryReports }, this.loadTimmies());
         })
             .catch((error) => {
@@ -111,7 +110,7 @@ class TimmiesApp extends Component {
             if (playerTeam) {
                 let game = this.state.games.find(game => game.teams.home.abbr === playerTeam.timmiesAbbr || game.teams.away.abbr === playerTeam.timmiesAbbr);
                 if (game) {
-                    if (game.teams.home.abbr === playerTeamAbbr) {
+                    if (game.teams.home.abbr === playerTeam.timmiesAbbr) {
                         opponent = this.state.teams.find(team => team.timmiesAbbr === game.teams.away.abbr);
                     }
                     else {
