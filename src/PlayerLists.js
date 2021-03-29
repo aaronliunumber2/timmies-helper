@@ -32,7 +32,10 @@ class PlayerLists extends Component {
                         id: "playerName",
                         accessor: "shortName",
                         className: "player-name",
-                        Cell: props => <div><img className="team-logo" src={process.env.PUBLIC_URL + "/assets/logos/" + props.row.original.nhldata.teamAbbrevs + ".png"} /> {props.value}</div>,
+                        Cell: props =>
+                            <div>
+                                <img className="team-logo" src={process.env.PUBLIC_URL + "/assets/logos/" + props.row.original.nhldata.teamAbbrevs + ".png"} /> <a target="_blank" href={"https://www.nhl.com/player/" + props.row.original.key}>{props.value}</a>
+                            </div>,
                     },
                     {
                         Header: "Pos",
