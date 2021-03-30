@@ -109,9 +109,9 @@ class PlayerLists extends Component {
                         this.props.playerLists.map((set) => {
                             return (
                                 <div className="player-list" key={set.id}>
-                                    <h2 className='list-header' ><a href="#" onClick={(e) => this.clickHeader(set.id)}>List {set.id}</a></h2>
+                                    <h2 className='list-header' ><a href={"#set" + set.id} onClick={(e) => this.clickHeader(set.id)}>List {set.id}</a></h2>
                                     <Collapse in={this.state.showList[set.id - 1]}>
-                                        <div className='stats-list'>
+                                        <div className='stats-list' id={"#set" + set.id}>
                                             {this.state.columns && <PlayerList data={set.players} columns={this.state.columns}/>}
                                         </div>
                                     </Collapse>

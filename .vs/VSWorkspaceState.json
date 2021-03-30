@@ -3,9 +3,8 @@
     "",
     "\\public",
     "\\src",
-    "\\src\\data",
-    "\\src\\img"
+    "\\src\\data"
   ],
-  "SelectedNode": "\\public\\CNAME",
+  "SelectedNode": "\\src\\data\\teams.json",
   "PreviewInSolutionExplorer": false
 }
