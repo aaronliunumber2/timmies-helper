@@ -44,6 +44,10 @@
     overflow-x: auto;
 }
 
+.app-title {
+    margin-bottom: 1em;
+}
+
 /*Sort triangle*/
 
 .stats-list .sort-desc:after, .stats-list .sort-asc:after  {

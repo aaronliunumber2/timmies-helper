@@ -13,7 +13,7 @@ function App() {
               integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
               crossOrigin="anonymous"
           />
-          <header className="app-header">
+          <header className="app-title">
             Tim Horton's Hockey Challenge Helper
           </header>
           <div>
