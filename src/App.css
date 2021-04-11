@@ -100,6 +100,20 @@
     max-width: 20px;
 }
 
+input.trend-games{
+    width: 30px;
+    text-align: center;
+}
+
+.trend-settings{
+    margin-top: 1em;
+}
+
+.trend-settings > button{
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
 /*react-table stuff*/
 
 table {
@@ -150,4 +164,18 @@ th:first-child {
     left: 0px;
     z-index: 50;
     background-color: inherit;
+}
+
+/*hide number arrow thing*/
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
