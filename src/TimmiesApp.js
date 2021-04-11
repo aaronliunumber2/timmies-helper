@@ -478,8 +478,9 @@ class TimmiesApp extends Component {
             seconds += parseInt(gameSeconds);
         }
 
+        let trendOrGamesPlayed = this.getLowerTrendGamesPlayed(player, numGames);
         let totalSeconds = seconds + (minutes * 60);
-        let trendSeconds = totalSeconds / this.state.trendGames;
+        let trendSeconds = totalSeconds / trendOrGamesPlayed;
         let finalMinutes = trendSeconds / 60;
         let finalSeconds = trendSeconds % 60;
 
