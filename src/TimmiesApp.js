@@ -495,8 +495,10 @@ class TimmiesApp extends Component {
     }
 
     adjustTrendGames(number) {
-        if (this.state.trendGames + number > 0) {
-            this.setState({ trendGames: this.state.trendGames + number });
+        let newTrendGames = parseInt(this.state.trendGames) + parseInt(number);
+
+        if (newTrendGames > 0) {
+            this.setState({ trendGames: newTrendGames }, this.setTrendColumns());
         }
     }
 
