@@ -177,24 +177,22 @@ class TimmiesApp extends Component {
                         //get the correct stats from the playerStats and that is a new object in player
                         let seasonStats = playerStatsData.stats[0].splits[0].stat;
 
-                        //first check if they belong to multiple teams, if so we need to check the teams json to set the proper abbreviation
-                        if (basicData.teamAbbrevs.includes(",")) {
-                            let playerDataTeam = playerStatsData.currentTeam.name;
-                            //montreal canadiens has an accent, problem finding it in the json
-                            if (playerDataTeam.includes("Canadiens")) {
-                                playerDataTeam = "Montreal Canadiens";
-                            }
 
-                            console.log(player.firstName + " " + player.lastName + " on multiple teams.  Picked " + playerDataTeam);
-
-                            let team = teamData.teams.find(team => team.fullName === playerDataTeam);
-                            if (team != null) {
-                                basicData.teamAbbrevs = team.abbreviation;
-                            }
-                            else {
-                                console.log("Could not find team " + playerDataTeam);
-                            }
+                        let playerDataTeam = playerStatsData.currentTeam.name;
+                        //montreal canadiens has an accent, problem finding it in the json
+                        if (playerDataTeam.includes("Canadiens")) {
+                            playerDataTeam = "Montreal Canadiens";
                         }
+
+                        let team = teamData.teams.find(team => team.fullName === playerDataTeam);
+                        if (team != null) {
+                            //change the player's team to the current team based on playerstats data (that is more accurate than the summary search)
+                            basicData.teamAbbrevs = team.abbreviation;
+                        }
+                        else {
+                            console.log("Could not find team " + playerDataTeam);
+                        }
+                        
 
                         //game log search
                         let gameLogLink = "https://cors.bridged.cc/";
@@ -293,7 +291,7 @@ class TimmiesApp extends Component {
         if (!opponent) {
             console.log("Failed to get opponent for " + basicData.skaterFullName);
             console.log("Team Abbr: " + basicData.teamAbbrevs);
-
+            opponent = { teamAbbr: "nhl", goalsAgainstPerGame: 0 };
         }
         return opponent;
     }
