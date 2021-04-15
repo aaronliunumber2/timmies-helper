@@ -140,8 +140,10 @@ class TimmiesApp extends Component {
                         key = basicData.playerId;
                     }
                     else {
-                        //if we can't find the nhl player just add it but with no stats
-                        let playerData = { firstName: player.firstName, lastName: player.lastName, position: player.position, key: key };
+                        //if we can't find the nhl player just add it but with placeholder fake data
+                        let fakenhldata = { teamAbbrevs: "nhl" }
+                        let fakeopponent = { teamAbbr : "nhl", goalsAgainstPerGame : 0}
+                        let playerData = { firstName: player.firstName, lastName: player.lastName, shortName: firstName.substring(0, 1) + ". " + lastName, position: player.position, key: key, nhldata : fakenhldata, opponent : fakeopponent};
 
                         //shallow copy of entire array
                         let newPlayerLists = [...this.state.playerLists];
