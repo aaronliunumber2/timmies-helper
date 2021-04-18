@@ -114,8 +114,13 @@ input.trend-games{
     margin-right: 1em;
 }
 
+.warnings
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color : red;
+}
 /*react-table stuff*/
-
 table {
     border-spacing: 0;
     border: 1px solid #f2f2f2;

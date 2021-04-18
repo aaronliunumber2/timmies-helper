@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import PlayerLists from './PlayerLists'
+import Warnings from './Warnings';
 import teamData from './data/teams.json'
 import playerNames from './data/playerNames.json'
 import axios from 'axios'
 import { Button } from 'react-bootstrap'
+import Player from './Player'
 
 class TimmiesApp extends Component {
     constructor(props) {
@@ -12,8 +14,6 @@ class TimmiesApp extends Component {
         this.state = {
             loading: true,
             playerLists: [{ id: "1", players: [] }, { id: "2", players: [] }, { id: "3", players: [] }],
-            injuries : [],
-            injuredPlayer : false,
             games: null,
             teams : [],
             errorMessage: "",
@@ -21,8 +21,9 @@ class TimmiesApp extends Component {
             seasonType: "regular",
             currentView: "overall",
             trendGames : 5,
-            playerListColumns : null
-
+            playerListColumns: null,
+            postponedGames : null,
+            playerInjuries: null,
         }
 
         this.loadTimmies = this.loadTimmies.bind(this);
@@ -100,13 +101,43 @@ class TimmiesApp extends Component {
     loadTimmies() {
         const promise = axios.post("https://cors.bridged.cc/http://ec2-54-158-170-220.compute-1.amazonaws.com/api/v1/players");
         promise.then((response) => {
-            this.setState({ loading: false, games: response.data.games }, this.loadSetData(response.data.sets));
+            this.loadNHLGames(response.data);
         })
             .catch((error) => {
+                console.log(error);
                 this.setState({ errorMessage: "Sorry!  Unable to load Tims Hockey Challenge Data.  Please try again later." });
             });
     }
 
+    loadNHLGames(timmiesData) {
+
+        let timmiesGames = timmiesData.games;
+
+        if (timmiesGames.length > 0) {
+            let firstTimmiesGame = timmiesGames[0];
+            let gameStartTime = firstTimmiesGame.startTime;
+            let date = gameStartTime.substring(0, gameStartTime.indexOf("T"));
+            const nhlGamespromise = axios.get("https://cors.bridged.cc/https://statsapi.web.nhl.com/api/v1/schedule?date=" + date);
+            nhlGamespromise.then((response) => {
+
+                //go through and check if there are postponed games
+                const games = response.data.dates[0].games;
+                let postponedGames = games.filter(game => game.status.detailedState === "Postponed");
+               
+
+                this.setState({ loading: false, games: games, postponedGames : postponedGames }, this.loadSetData(timmiesData.sets));
+            })
+                .catch((error) => {
+                    console.log(error);
+                    this.setState({ errorMessage: "Sorry!  Unable to load game day schedule from NHL website.  Please try again later." });
+                });
+        }
+        else {
+            this.setState({ errorMessage: "No games today!" });
+        }
+    }
+
+    //this is where all the players data gets loaded through multiple requests
     loadSetData(sets) {
         sets.map((set) => {
             set.players.map((player) => {
@@ -278,15 +309,23 @@ class TimmiesApp extends Component {
             let playerTeamAbbr = basicData.teamAbbrevs;
             let playerTeam = this.state.teams.find(team => team.teamAbbr === playerTeamAbbr);
             if (playerTeam) {
-                let game = this.state.games.find(game => game.teams.home.abbr === playerTeam.timmiesAbbr || game.teams.away.abbr === playerTeam.timmiesAbbr);
+
+                let game;
+                game = this.state.games.find(game => game.teams.home.team.name === playerTeam.teamFullName || game.teams.away.team.name === playerTeam.teamFullName);
                 if (game) {
-                    if (game.teams.home.abbr === playerTeam.timmiesAbbr) {
-                        opponent = this.state.teams.find(team => team.timmiesAbbr === game.teams.away.abbr);
+                    if (game.teams.home.team.name === playerTeam.teamFullName) {
+                        opponent = this.state.teams.find(team => team.teamFullName === game.teams.away.team.name);
                     }
                     else {
-                        opponent = this.state.teams.find(team => team.timmiesAbbr === game.teams.home.abbr);
+                        opponent = this.state.teams.find(team => team.teamFullName === game.teams.home.team.name);
                     }
                 }
+                else {
+                    console.log("Can't find game for player " + basicData.skaterFullName);
+                }
+            }
+            else {
+                console.log("Can't find player team for player " + basicData.skaterFullName);
             }
         }
 
@@ -488,7 +527,24 @@ class TimmiesApp extends Component {
     }
 
     getGoalStreak(player) {
-        return 0;
+        var gamelog = player.gamelogData;
+        var streak = 0;
+        
+        if (gamelog.length > 0) {
+            //check the first one to see if they scored or not.  If they did start at 1, if they didn't be negative 1
+        }
+
+        return streak;
+    }
+
+    getGoalsPerGameVsOpponent(player) {
+        var opponent = player.opponent;
+        var gamelog = player.gamelogData;
+        var goals = 0;
+        if (gamelog.length > 0) {
+
+        }
+        return goals;
     }
 
     getLowerTrendGamesPlayed(player, numGames) {
@@ -517,8 +573,13 @@ class TimmiesApp extends Component {
             if (this.state.currentView === "trend") {
                 trendSettings = <div className="trend-settings"><Button variant="light" onClick={() => this.adjustTrendGames(-1)}>-</Button>Last <input className="trend-games" type="number" value={this.state.trendGames} onChange={(e) => { if (e.target.value > 0) this.setState({ trendGames: e.target.value }, this.setTrendColumns()); }} /> Games<Button variant="light" onClick={() => this.adjustTrendGames(1)}>+</Button></div>
             }
+            let warnings;
+            if (this.state.postponedGames || this.state.playerInjuries) {
+                warnings = <Warnings postponedGames={this.state.postponedGames} injuries={this.state.playerInjuries}/>
+            }
             display =
                 <div>
+                {warnings}
                 <Button onClick={(e) => this.setCurrentView("overall")} variant={this.state.currentView === "overall" ? "dark" : "light"}>Overall</Button><Button onClick={(e) => this.setCurrentView("trend")} variant={this.state.currentView === "trend" ? "dark" : "light"}>Trend</Button>
                 {trendSettings}                
                 <PlayerLists playerLists={this.state.playerLists} games={this.state.games} teams={this.state.teams} playerListColumns={this.state.playerListColumns} />
