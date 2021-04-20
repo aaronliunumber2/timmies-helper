@@ -8,9 +8,19 @@ export default function Warnings(props) {
         </div>
     )
 
+    let playerInjuries;
+    if (props.injuries) {
+        playerInjuries = props.injuries.map((injury) => 
+            <div key={injury.Player.LastName}>
+                INJURY: {injury.Player.FirstName} {injury.Player.LastName} : {injury.InjuryDetail.Status} - {injury.InjuryDetail.Description}
+            </div>
+        )
+    }
+
     return (
         <div className="warnings">
             {postponedGamesWarning}
+            {playerInjuries}
         </div>
         )
 }

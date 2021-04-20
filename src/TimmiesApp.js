@@ -23,7 +23,8 @@ class TimmiesApp extends Component {
             trendGames : 5,
             playerListColumns: null,
             postponedGames : null,
-            playerInjuries: null,
+            playerInjuries: [],
+            tsnInjuries : null,
         }
 
         this.loadTimmies = this.loadTimmies.bind(this);
@@ -91,7 +92,7 @@ class TimmiesApp extends Component {
     loadTSNInjuryData() {
         const promise = axios.get("https://stats.tsn.ca/GET/urn:tsn:nhl:injuries?type=json");
         promise.then((response) => {
-            this.setState({ injuries: response.data.InjuryReports }, this.loadTimmies());
+            this.setState({ tsnInjuries: response.data.InjuryReports }, this.loadTimmies());
         })
             .catch((error) => {
                 this.loadTimmies()
@@ -268,14 +269,33 @@ class TimmiesApp extends Component {
                                 nhldata: basicData,
                                 statsdata : seasonStats,
                                 gamelogData: gameLogSplits,
-                                opponent: opponent
+                                opponent: opponent,                               
                             };
 
                             //shallow copy of entire array
                             let newPlayerLists = [...this.state.playerLists];
                             let playerList = newPlayerLists[set.id - 1];
                             playerList.players = [...playerList.players, playerData]
-                            this.setState({ playerLists: newPlayerLists });
+
+                            //see if the player is injured
+
+                            let injuryTeam = this.state.tsnInjuries.find((injuryReport) => injuryReport.Team.Name === playerDataTeam);
+                            let newInjury = null;
+                            if (injuryTeam) {
+                                let playerInjury = injuryTeam.Injuries.find((injury) => (injury.Player.FirstName + " " + injury.Player.LastName) === playerData.fullName)
+                                if (playerInjury) {
+                                    playerData.injury = playerInjury.InjuryDetail.Status;
+                                    newInjury = playerInjury;
+                                }
+                            }
+
+                            if (newInjury) {
+                                let newInjuryList = [...this.state.playerInjuries, newInjury];
+                                this.setState({ playerLists: newPlayerLists, playerInjuries : newInjuryList });
+                            }
+                            else {
+                                this.setState({ playerLists: newPlayerLists });
+                            }
                         }).catch((error) => {
                             console.log("Game log stats failed for " + player.firstName + " " + player.lastName + ". Error: " + error);
                         });
