@@ -11,8 +11,8 @@ export default function Warnings(props) {
     let playerInjuries;
     if (props.injuries) {
         playerInjuries = props.injuries.map((injury) => 
-            <div key={injury.Player.LastName}>
-                INJURY: {injury.Player.FirstName} {injury.Player.LastName} : {injury.InjuryDetail.Status} - {injury.InjuryDetail.Description}
+            <div key={injury.ID}>
+                INJURY: {injury.player} - {injury.status} - {injury.injury}
             </div>
         )
     }

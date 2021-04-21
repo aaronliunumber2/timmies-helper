@@ -24,12 +24,12 @@ class TimmiesApp extends Component {
             playerListColumns: null,
             postponedGames : null,
             playerInjuries: [],
-            tsnInjuries : null,
+            webInjuries : null,
         }
 
         this.loadTimmies = this.loadTimmies.bind(this);
         this.loadSetData = this.loadSetData.bind(this);
-        this.loadTSNInjuryData = this.loadTSNInjuryData.bind(this);
+        this.loadInjuryData = this.loadInjuryData.bind(this);
         this.loadTeamData = this.loadTeamData.bind(this);
 
         this.getPlayerOpponent = this.getPlayerOpponent.bind(this);
@@ -79,7 +79,7 @@ class TimmiesApp extends Component {
                     teamData[i].timmiesAbbr = abbr;
                 }
             }
-            this.setState({ teams: teamData }, this.loadTSNInjuryData());
+            this.setState({ teams: teamData }, this.loadInjuryData());
 
 
 
@@ -89,10 +89,10 @@ class TimmiesApp extends Component {
                 });
     }
 
-    loadTSNInjuryData() {
-        const promise = axios.get("https://stats.tsn.ca/GET/urn:tsn:nhl:injuries?type=json");
+    loadInjuryData() {
+        const promise = axios.get("https://cors.bridged.cc/https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL");
         promise.then((response) => {
-            this.setState({ tsnInjuries: response.data.InjuryReports }, this.loadTimmies());
+            this.setState({ webInjuries: response.data }, this.loadTimmies());
         })
             .catch((error) => {
                 this.loadTimmies()
@@ -278,20 +278,16 @@ class TimmiesApp extends Component {
                             playerList.players = [...playerList.players, playerData]
 
                             //see if the player is injured
-
-                            let injuryTeam = this.state.tsnInjuries.find((injuryReport) => injuryReport.Team.Name === playerDataTeam);
-                            let newInjury = null;
-                            if (injuryTeam) {
-                                let playerInjury = injuryTeam.Injuries.find((injury) => (injury.Player.FirstName + " " + injury.Player.LastName) === playerData.fullName)
-                                if (playerInjury) {
-                                    playerData.injury = playerInjury.InjuryDetail.Status;
-                                    newInjury = playerInjury;
+                            if (this.state.webInjuries) { //it may be null if this call failed and that is OK
+                                let injury = this.state.webInjuries.find((injury) => injury.player === playerData.fullName);
+                                if (injury) {
+                                    playerData.injury = injury;
                                 }
                             }
 
-                            if (newInjury) {
-                                let newInjuryList = [...this.state.playerInjuries, newInjury];
-                                this.setState({ playerLists: newPlayerLists, playerInjuries : newInjuryList });
+                            if (playerData.injury) {
+                                let newInjuryList = [...this.state.playerInjuries, playerData.injury];
+                                this.setState({ playerLists: newPlayerLists, playerInjuries: newInjuryList });
                             }
                             else {
                                 this.setState({ playerLists: newPlayerLists });
