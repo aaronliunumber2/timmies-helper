@@ -505,6 +505,9 @@ class TimmiesApp extends Component {
 
     getValueFromPastGames(player, field, numGames) {
         const splits = player.gamelogData;
+        if (!splits) {
+            return 0;
+        }
         let returnValue = 0;
         let maxGames = numGames <= splits.length ? numGames : splits.length;
         for (let i = 0; i <= maxGames -1; i++) {
@@ -518,6 +521,9 @@ class TimmiesApp extends Component {
 
     getTOIFromPastGames(player, field, numGames) {
         const splits = player.gamelogData;
+        if (!splits) {
+            return 0;
+        }
         let minutes = 0;
         let seconds = 0;
         let maxGames = numGames <= splits.length ? numGames : splits.length;
