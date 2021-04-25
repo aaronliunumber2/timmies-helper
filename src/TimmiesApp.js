@@ -20,7 +20,8 @@ class TimmiesApp extends Component {
             currentSeason: "20202021",
             seasonType: "regular",
             currentView: "overall",
-            trendGames : 5,
+            trendGames: 5,
+            trendGamesInput : 5,
             playerListColumns: null,
             postponedGames : null,
             playerInjuries: [],
@@ -38,6 +39,7 @@ class TimmiesApp extends Component {
 
         this.setOverallColumns = this.setOverallColumns.bind(this);
         this.setTrendColumns = this.setTrendColumns.bind(this);
+        this.setTrendGames = this.setTrendGames.bind(this);
 
         this.adjustTrendGames = this.adjustTrendGames.bind(this);
         this.getLowerTrendGamesPlayed = this.getLowerTrendGamesPlayed.bind(this);
@@ -577,8 +579,19 @@ class TimmiesApp extends Component {
         let newTrendGames = parseInt(this.state.trendGames) + parseInt(number);
 
         if (newTrendGames > 0) {
-            this.setState({ trendGames: newTrendGames }, this.setTrendColumns());
+            this.setTrendGames(newTrendGames);
         }
+    }
+
+    setTrendGames(number) {
+        const newValue = parseInt(number);
+
+        if (Number.isInteger(newValue)) {
+            if (newValue > 0) {
+                this.setState({ trendGamesInput: newValue, trendGames: newValue }, this.setTrendColumns());
+            }
+        }
+
     }
 
     render() {
@@ -593,7 +606,7 @@ class TimmiesApp extends Component {
         else {
             let trendSettings;
             if (this.state.currentView === "trend") {
-                trendSettings = <div className="trend-settings"><Button variant="light" onClick={() => this.adjustTrendGames(-1)}>-</Button>Last <input className="trend-games" type="number" value={this.state.trendGames} onChange={(e) => { if (e.target.value > 0) this.setState({ trendGames: e.target.value }, this.setTrendColumns()); }} /> Games<Button variant="light" onClick={() => this.adjustTrendGames(1)}>+</Button></div>
+                trendSettings = <div className="trend-settings"><Button variant="light" onClick={() => this.adjustTrendGames(-1)}>-</Button>Last <input className="trend-games" value={this.state.trendGamesInput} onChange={(e) => { this.setTrendGames(e.target.value); }} /> Games<Button variant="light" onClick={() => this.adjustTrendGames(1)}>+</Button></div>
             }
             let warnings;
             if (this.state.postponedGames || this.state.playerInjuries) {
