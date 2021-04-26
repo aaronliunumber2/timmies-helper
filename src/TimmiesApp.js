@@ -591,6 +591,12 @@ class TimmiesApp extends Component {
                 this.setState({ trendGamesInput: newValue, trendGames: newValue }, this.setTrendColumns());
             }
         }
+        else {
+            //special rule for empty, allow it but it won't set the actual trend games state
+            if (number === "") {
+                this.setState({ trendGamesInput: number });
+            }
+        }
 
     }
 
