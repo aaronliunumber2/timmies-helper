@@ -118,8 +118,12 @@ class TimmiesApp extends Component {
 
         if (timmiesGames.length > 0) {
             let firstTimmiesGame = timmiesGames[0];
-            let gameStartTime = firstTimmiesGame.startTime;
-            let date = gameStartTime.substring(0, gameStartTime.indexOf("T"));
+            let gameStartTime = new Date(firstTimmiesGame.startTime);
+            gameStartTime.setHours(gameStartTime.getHours() - 7); //pacific time
+            //let date = gameStartTime.substring(0, gameStartTime.indexOf("T"));
+            //let date = gameStartTime.getFullYear() + "-" + gameStartTime.get().toString().padStart(2, "0") + "-" + gameStartTime.getDay().toString().padStart(2, "0");
+            let date = gameStartTime.toISOString().slice(0, 10);
+            console.log("Date" + date);
             const nhlGamespromise = axios.get("https://cors.bridged.cc/https://statsapi.web.nhl.com/api/v1/schedule?date=" + date);
             nhlGamespromise.then((response) => {
 
