@@ -48,6 +48,7 @@ class TimmiesApp extends Component {
         this.getGoalStreak = this.getGoalStreak.bind(this);
 
         this.setCurrentView = this.setCurrentView.bind(this);
+        this.setSEasonType = this.setSeasonType.bind(this);
 
     }
 
@@ -57,9 +58,16 @@ class TimmiesApp extends Component {
     }
 
     loadTeamData() {
-        let nhlLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId=2%20and%20seasonId%3C=20202021%20and%20seasonId%3E=20202021";
+        let teamLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId="
+        if (this.state.seasonType === "playoffs") {
+            teamLink +=  "2";
+        }
+        else {
+            teamLink += "3";
+        }
+        teamLink += "%20and%20seasonId%3C=" + this.state.currentSeason + "%20and%20seasonId%3E=" + this.state.currentSeason;
         let instance = axios.create({
-            baseURL: nhlLink,
+            baseURL: teamLink,
             withCredentials: false,
             headers: {
             }
@@ -81,7 +89,8 @@ class TimmiesApp extends Component {
                     teamData[i].timmiesAbbr = abbr;
                 }
             }
-            this.setState({ teams: teamData }, this.loadInjuryData());
+            //also reset the player list and load timmies
+            this.setState({ teams: teamData, playerLists: [{ id: "1", players: [] }, { id: "2", players: [] }, { id: "3", players: [] }] }, this.loadTimmies());
 
 
 
@@ -94,10 +103,10 @@ class TimmiesApp extends Component {
     loadInjuryData() {
         const promise = axios.get("https://cors.bridged.cc/https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL");
         promise.then((response) => {
-            this.setState({ webInjuries: response.data }, this.loadTimmies());
+            this.setState({ webInjuries: response.data }, this.loadTeamData());
         })
             .catch((error) => {
-                this.loadTimmies()
+                this.loadTeamData()
             });
     }
 
@@ -123,7 +132,6 @@ class TimmiesApp extends Component {
             //let date = gameStartTime.substring(0, gameStartTime.indexOf("T"));
             //let date = gameStartTime.getFullYear() + "-" + gameStartTime.get().toString().padStart(2, "0") + "-" + gameStartTime.getDay().toString().padStart(2, "0");
             let date = gameStartTime.toISOString().slice(0, 10);
-            console.log("Date" + date);
             const nhlGamespromise = axios.get("https://cors.bridged.cc/https://statsapi.web.nhl.com/api/v1/schedule?date=" + date);
             nhlGamespromise.then((response) => {
 
@@ -146,6 +154,7 @@ class TimmiesApp extends Component {
 
     //this is where all the players data gets loaded through multiple requests
     loadSetData(sets) {
+        //empty out the players
         sets.map((set) => {
             set.players.map((player) => {
                 //we want to see if we can find the player in the player.json table which means the tims name and nhl name do not match
@@ -163,7 +172,15 @@ class TimmiesApp extends Component {
 
 
                 //get basic nhl data
-                let basicSearchLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=2%20and%20seasonId%3E=20202021%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
+                let basicSearchLink = "https://cors.bridged.cc/";
+                basicSearchLink += "https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=";
+                if (this.state.seasonType === "playoffs") {
+                    basicSearchLink += "3";
+                }
+                else {
+                    basicSearchLink += "2";
+                }                
+                basicSearchLink += "%20and%20seasonId%3E=" + this.state.currentSeason +"%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
                 let basicSearch = axios.create({
                     baseURL: basicSearchLink,
                     withCredentials: false,
@@ -195,11 +212,11 @@ class TimmiesApp extends Component {
                     playerIdLink = playerIdLink + "https://statsapi.web.nhl.com/api/v1/people/";
                     playerIdLink = playerIdLink + key;
                     playerIdLink = playerIdLink + "?expand=person.stats&stats=";
-                    if (this.state.seasonType === "regular") {
-                        playerIdLink = playerIdLink + "statsSingleSeason";
+                    if (this.state.seasonType === "playoffs") {
+                        playerIdLink = playerIdLink + "statsSingleSeasonPlayoffs";
                     }
                     else {
-                        playerIdLink = playerIdLink + "statsSingleSeasonPlayoffs";
+                        playerIdLink = playerIdLink + "statsSingleSeason";
                     }
                     playerIdLink = playerIdLink + "&season=" + this.state.currentSeason;
 
@@ -238,7 +255,14 @@ class TimmiesApp extends Component {
                         let gameLogLink = "https://cors.bridged.cc/";
                         gameLogLink += "https://statsapi.web.nhl.com/api/v1/people/"
                         gameLogLink += key;
-                        gameLogLink += "/stats?stats=gameLog&expand=stats.team&season=";
+                        gameLogLink += "/stats?stats=";
+                        if (this.state.seasonType === "playoffs") {
+                            gameLogLink += "playoffGameLog"
+                        }
+                        else {
+                            gameLogLink += "gameLog";
+                        }
+                        gameLogLink += "&expand=stats.team & season=";
                         gameLogLink += this.state.currentSeason;
                         let gameLogSearch = axios.create({
                             baseURL: gameLogLink,
@@ -357,12 +381,6 @@ class TimmiesApp extends Component {
             opponent = { teamAbbr: "nhl", goalsAgainstPerGame: 0 };
         }
         return opponent;
-    }
-
-    setCurrentView(view) {
-        if (view != this.state.currentView) {
-            this.setState({ currentView: view }, () => { if (view === "trend") this.setTrendColumns(); else this.setOverallColumns() });
-        }
     }
 
     setOverallColumns() {
@@ -575,6 +593,12 @@ class TimmiesApp extends Component {
         return goals;
     }
 
+    setCurrentView(view) {
+        if (view != this.state.currentView) {
+            this.setState({ currentView: view }, () => { if (view === "trend") this.setTrendColumns(); else this.setOverallColumns() });
+        }
+    }
+
     getLowerTrendGamesPlayed(player, numGames) {
         return numGames < player.nhldata.gamesPlayed ? numGames : player.nhldata.gamesPlayed
     }
@@ -601,7 +625,12 @@ class TimmiesApp extends Component {
                 this.setState({ trendGamesInput: number });
             }
         }
+    }
 
+    setSeasonType(season) {
+        if (season != this.state.seasonType) {
+            this.setState({ seasonType: season }, this.loadTeamData());
+        }
     }
 
     render() {
@@ -625,7 +654,8 @@ class TimmiesApp extends Component {
             display =
                 <div>
                 {warnings}
-                <Button onClick={(e) => this.setCurrentView("overall")} variant={this.state.currentView === "overall" ? "dark" : "light"}>Overall</Button><Button onClick={(e) => this.setCurrentView("trend")} variant={this.state.currentView === "trend" ? "dark" : "light"}>Trend</Button>
+                <div className="settings-buttons"><Button onClick={(e) => this.setSeasonType("regular")} variant={this.state.seasonType === "regular" ? "dark" : "light"}>Regular Season</Button><Button onClick={(e) => this.setSeasonType("playoffs")} variant={this.state.seasonType === "playoffs" ? "dark" : "light"}>Playoffs</Button></div>
+                <div className="settings-buttons"><Button onClick={(e) => this.setCurrentView("overall")} variant={this.state.currentView === "overall" ? "dark" : "light"}>Overall</Button><Button onClick={(e) => this.setCurrentView("trend")} variant={this.state.currentView === "trend" ? "dark" : "light"}>Trend</Button></div>
                 {trendSettings}                
                 <PlayerLists playerLists={this.state.playerLists} games={this.state.games} teams={this.state.teams} playerListColumns={this.state.playerListColumns} />
                 </div>

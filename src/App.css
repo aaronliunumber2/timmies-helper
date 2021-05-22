@@ -120,6 +120,12 @@ input.trend-games{
     margin-bottom: 1em;
     color : red;
 }
+
+.settings-buttons{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 /*react-table stuff*/
 table {
     border-spacing: 0;
@@ -170,6 +176,7 @@ th:first-child {
     z-index: 50;
     background-color: inherit;
 }
+
 
 /*hide number arrow thing*/
 
