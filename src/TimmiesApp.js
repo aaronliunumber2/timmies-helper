@@ -59,11 +59,12 @@ class TimmiesApp extends Component {
 
     loadTeamData() {
         let teamLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId="
+        console.log(this.state.seasonType);
         if (this.state.seasonType === "playoffs") {
-            teamLink +=  "2";
+            teamLink +=  "3";
         }
         else {
-            teamLink += "3";
+            teamLink += "2";
         }
         teamLink += "%20and%20seasonId%3C=" + this.state.currentSeason + "%20and%20seasonId%3E=" + this.state.currentSeason;
         let instance = axios.create({
@@ -103,7 +104,7 @@ class TimmiesApp extends Component {
     loadInjuryData() {
         const promise = axios.get("https://cors.bridged.cc/https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL");
         promise.then((response) => {
-            this.setState({ webInjuries: response.data }, this.loadTeamData());
+            this.setState({ webInjuries: response.data }, () => this.loadTeamData());
         })
             .catch((error) => {
                 this.loadTeamData()
@@ -140,7 +141,7 @@ class TimmiesApp extends Component {
                 let postponedGames = games.filter(game => game.status.detailedState === "Postponed");
                
 
-                this.setState({ loading: false, games: games, postponedGames : postponedGames }, this.loadSetData(timmiesData.sets));
+                this.setState({ loading: false, games: games, postponedGames : postponedGames }, ()=> this.loadSetData(timmiesData.sets));
             })
                 .catch((error) => {
                     console.log(error);
@@ -175,7 +176,7 @@ class TimmiesApp extends Component {
                 let basicSearchLink = "https://cors.bridged.cc/";
                 basicSearchLink += "https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=";
                 if (this.state.seasonType === "playoffs") {
-                    basicSearchLink += "3";
+                    basicSearchLink += "3";                    
                 }
                 else {
                     basicSearchLink += "2";
@@ -616,7 +617,7 @@ class TimmiesApp extends Component {
 
         if (Number.isInteger(newValue)) {
             if (newValue > 0) {
-                this.setState({ trendGamesInput: newValue, trendGames: newValue }, this.setTrendColumns());
+                this.setState({ trendGamesInput: newValue, trendGames: newValue }, () => this.setTrendColumns());
             }
         }
         else {
@@ -629,7 +630,8 @@ class TimmiesApp extends Component {
 
     setSeasonType(season) {
         if (season != this.state.seasonType) {
-            this.setState({ seasonType: season }, this.loadTeamData());
+            console.log("set season type: " + season);
+            this.setState({ seasonType: season }, () => this.loadTeamData());
         }
     }
 
