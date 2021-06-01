@@ -59,7 +59,6 @@ class TimmiesApp extends Component {
 
     loadTeamData() {
         let teamLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId="
-        console.log(this.state.seasonType);
         if (this.state.seasonType === "playoffs") {
             teamLink +=  "3";
         }
@@ -630,7 +629,6 @@ class TimmiesApp extends Component {
 
     setSeasonType(season) {
         if (season != this.state.seasonType) {
-            console.log("set season type: " + season);
             this.setState({ seasonType: season }, () => this.loadTeamData());
         }
     }
