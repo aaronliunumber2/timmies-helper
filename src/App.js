@@ -2,6 +2,7 @@ import './App.css';
 import paypallogo from './paypal.png';
 import Container from 'react-bootstrap/Container'
 import TimmiesApp from './TimmiesApp'
+import Legend from './Legend'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           </header>
           <div>
               <TimmiesApp />
+              <Legend/ >
               <footer className="footer" >
                   <div>Questions? Suggestions? Find me on <a href={"//www.twitter.com/Zorbane"} target="_blank">Twitter</a></div>
                   <div>Buy me Timmies? <a href='https://www.paypal.com/paypalme/zorbane/' target="_blank"><img className="paypal-logo" src={paypallogo}/></a></div>
