@@ -106,7 +106,7 @@ class TimmiesApp extends Component {
     }
 
     loadInjuryData() {
-        const promise = axios.get(this.freeboardUrl + "https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL");
+        const promise = axios.get(this.bridgedUrl + "https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL");
         promise.then((response) => {
             this.setState({ webInjuries: response.data }, () => this.loadTeamData());
         })
@@ -116,7 +116,7 @@ class TimmiesApp extends Component {
     }
 
     loadTimmies() {
-        let timmiesUrl = "http://ec2-52-71-240-52.compute-1.amazonaws.com/api/v1/players";
+        let timmiesUrl = this.bridgedUrl + "http://ec2-52-71-240-52.compute-1.amazonaws.com/api/v1/players";
         const promise = axios.post(timmiesUrl);
         promise.then((response) => {
             this.loadNHLGames(response.data);
@@ -139,7 +139,7 @@ class TimmiesApp extends Component {
             //let date = gameStartTime.getFullYear() + "-" + gameStartTime.get().toString().padStart(2, "0") + "-" + gameStartTime.getDay().toString().padStart(2, "0");
             let date = gameStartTime.toISOString().slice(0, 10);
 
-            const nhlGamespromise = axios.get(this.freeboardUrl + "https://statsapi.web.nhl.com/api/v1/schedule?date=" + date);
+            const nhlGamespromise = axios.get(this.bridgedUrl + "https://statsapi.web.nhl.com/api/v1/schedule?date=" + date);
             nhlGamespromise.then((response) => {
 
                 //go through and check if there are postponed games
