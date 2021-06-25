@@ -8,6 +8,8 @@ import { Button } from 'react-bootstrap'
 import Player from './Player'
 
 class TimmiesApp extends Component {
+
+
     constructor(props) {
         super(props);
 
@@ -52,13 +54,16 @@ class TimmiesApp extends Component {
 
     }
 
+    freeboardUrl = "https://thingproxy.freeboard.io/fetch/";
+    bridgedUrl = "https://cors.bridged.cc/";
+
     componentDidMount() {
         this.setOverallColumns();
         this.loadInjuryData();
     }
 
     loadTeamData() {
-        let teamLink = "https://cors.bridged.cc/https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId="
+        let teamLink = this.bridgedUrl + "https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId="
         if (this.state.seasonType === "playoffs") {
             teamLink +=  "3";
         }
@@ -101,7 +106,7 @@ class TimmiesApp extends Component {
     }
 
     loadInjuryData() {
-        const promise = axios.get("https://cors.bridged.cc/https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL");
+        const promise = axios.get(this.freeboardUrl + "https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL");
         promise.then((response) => {
             this.setState({ webInjuries: response.data }, () => this.loadTeamData());
         })
@@ -111,7 +116,8 @@ class TimmiesApp extends Component {
     }
 
     loadTimmies() {
-        const promise = axios.post("https://cors.bridged.cc/http://ec2-54-158-170-220.compute-1.amazonaws.com/api/v1/players");
+        let timmiesUrl = "http://ec2-52-71-240-52.compute-1.amazonaws.com/api/v1/players";
+        const promise = axios.post(timmiesUrl);
         promise.then((response) => {
             this.loadNHLGames(response.data);
         })
@@ -132,7 +138,8 @@ class TimmiesApp extends Component {
             //let date = gameStartTime.substring(0, gameStartTime.indexOf("T"));
             //let date = gameStartTime.getFullYear() + "-" + gameStartTime.get().toString().padStart(2, "0") + "-" + gameStartTime.getDay().toString().padStart(2, "0");
             let date = gameStartTime.toISOString().slice(0, 10);
-            const nhlGamespromise = axios.get("https://cors.bridged.cc/https://statsapi.web.nhl.com/api/v1/schedule?date=" + date);
+
+            const nhlGamespromise = axios.get(this.freeboardUrl + "https://statsapi.web.nhl.com/api/v1/schedule?date=" + date);
             nhlGamespromise.then((response) => {
 
                 //go through and check if there are postponed games
@@ -172,8 +179,7 @@ class TimmiesApp extends Component {
 
 
                 //get basic nhl data
-                let basicSearchLink = "https://cors.bridged.cc/";
-                basicSearchLink += "https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=";
+                let basicSearchLink = this.bridgedUrl + "https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=";
                 if (this.state.seasonType === "playoffs") {
                     basicSearchLink += "3";                    
                 }
@@ -208,8 +214,7 @@ class TimmiesApp extends Component {
                     }
 
 
-                    let playerIdLink = "https://cors.bridged.cc/";
-                    playerIdLink = playerIdLink + "https://statsapi.web.nhl.com/api/v1/people/";
+                    let playerIdLink = this.bridgedUrl + "https://statsapi.web.nhl.com/api/v1/people/";
                     playerIdLink = playerIdLink + key;
                     playerIdLink = playerIdLink + "?expand=person.stats&stats=";
                     if (this.state.seasonType === "playoffs") {
@@ -252,8 +257,7 @@ class TimmiesApp extends Component {
                         
 
                         //game log search
-                        let gameLogLink = "https://cors.bridged.cc/";
-                        gameLogLink += "https://statsapi.web.nhl.com/api/v1/people/"
+                        let gameLogLink = this.bridgedUrl + "https://statsapi.web.nhl.com/api/v1/people/"
                         gameLogLink += key;
                         gameLogLink += "/stats?stats=";
                         if (this.state.seasonType === "playoffs") {
