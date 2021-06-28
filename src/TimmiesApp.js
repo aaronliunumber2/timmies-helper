@@ -54,16 +54,35 @@ class TimmiesApp extends Component {
 
     }
 
-    freeboardUrl = "https://thingproxy.freeboard.io/fetch/";
+    zorbaneProxyUrl = "https://proxy-zorbane.herokuapp.com/"    
     bridgedUrl = "https://cors.bridged.cc/";
+    timmiesUrl = "http://ec2-52-71-240-52.compute-1.amazonaws.com/api/v1/players"
 
     componentDidMount() {
         this.setOverallColumns();
         this.loadInjuryData();
     }
 
+    loadInjuryData() {
+        const injuryGet = axios.create({
+            baseURL: this.zorbaneProxyUrl + "https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL",
+            withCredentials: false,
+            headers: {
+                "X-Requested-With" : "*",
+            }
+        });
+        const promise = injuryGet.get();
+        promise.then((response) => {
+            this.setState({ webInjuries: response.data }, () => this.loadTeamData());
+        })
+            .catch((error) => {
+                this.loadTeamData()
+            });
+    }
+
+
     loadTeamData() {
-        let teamLink = this.bridgedUrl + "https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId="
+        let teamLink = this.zorbaneProxyUrl + "https://api.nhle.com/stats/rest/en/team/summary?isAggregate=false&isGame=false&sort=%5B%7B%22property%22:%22points%22,%22direction%22:%22DESC%22%7D,%7B%22property%22:%22wins%22,%22direction%22:%22DESC%22%7D%5D&start=0&limit=50&factCayenneExp=gamesPlayed%3E=1&cayenneExp=gameTypeId="
         if (this.state.seasonType === "playoffs") {
             teamLink +=  "3";
         }
@@ -75,10 +94,12 @@ class TimmiesApp extends Component {
             baseURL: teamLink,
             withCredentials: false,
             headers: {
+                "X-Requested-With": "*",
             }
         });
         const promise = instance.get();
         promise.then((response) => {
+
             //go through each team and set it's abbreviation
             let teamData = response.data.data;
             for (let i = 0; i < teamData.length; i++) {
@@ -105,18 +126,8 @@ class TimmiesApp extends Component {
                 });
     }
 
-    loadInjuryData() {
-        const promise = axios.get(this.bridgedUrl + "https://www.rotowire.com/hockey/tables/injury-report.php?team=ALL&pos=ALL");
-        promise.then((response) => {
-            this.setState({ webInjuries: response.data }, () => this.loadTeamData());
-        })
-            .catch((error) => {
-                this.loadTeamData()
-            });
-    }
-
     loadTimmies() {
-        let timmiesUrl = this.bridgedUrl + "http://ec2-52-71-240-52.compute-1.amazonaws.com/api/v1/players";
+        let timmiesUrl = this.zorbaneProxyUrl + this.timmiesUrl;
         const promise = axios.post(timmiesUrl);
         promise.then((response) => {
             this.loadNHLGames(response.data);
@@ -138,8 +149,14 @@ class TimmiesApp extends Component {
             //let date = gameStartTime.substring(0, gameStartTime.indexOf("T"));
             //let date = gameStartTime.getFullYear() + "-" + gameStartTime.get().toString().padStart(2, "0") + "-" + gameStartTime.getDay().toString().padStart(2, "0");
             let date = gameStartTime.toISOString().slice(0, 10);
-
-            const nhlGamespromise = axios.get(this.bridgedUrl + "https://statsapi.web.nhl.com/api/v1/schedule?date=" + date);
+            const nhlGamesGet = axios.create({
+                baseURL: this.zorbaneProxyUrl + "https://statsapi.web.nhl.com/api/v1/schedule?date=" + date,
+                withCredentials: false,
+                headers: {
+                    "X-Requested-With": "*",
+                }
+            });
+            const nhlGamespromise = nhlGamesGet.get();
             nhlGamespromise.then((response) => {
 
                 //go through and check if there are postponed games
@@ -179,7 +196,7 @@ class TimmiesApp extends Component {
 
 
                 //get basic nhl data
-                let basicSearchLink = this.bridgedUrl + "https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=";
+                let basicSearchLink = this.zorbaneProxyUrl + "https://api.nhle.com/stats/rest/en/skater/summary?cayenneExp=gameTypeId=";
                 if (this.state.seasonType === "playoffs") {
                     basicSearchLink += "3";                    
                 }
@@ -191,6 +208,7 @@ class TimmiesApp extends Component {
                     baseURL: basicSearchLink,
                     withCredentials: false,
                     headers: {
+                        "X-Requested-With": "*",
                     }
                 });
                 const basicPromise = basicSearch.get();
@@ -257,7 +275,7 @@ class TimmiesApp extends Component {
                         
 
                         //game log search
-                        let gameLogLink = this.bridgedUrl + "https://statsapi.web.nhl.com/api/v1/people/"
+                        let gameLogLink = this.zorbaneProxyUrl + "https://statsapi.web.nhl.com/api/v1/people/"
                         gameLogLink += key;
                         gameLogLink += "/stats?stats=";
                         if (this.state.seasonType === "playoffs") {
@@ -272,6 +290,7 @@ class TimmiesApp extends Component {
                             baseURL: gameLogLink,
                             withCredentials: false,
                             headers: {
+                                "X-Requested-With": "*",
                             }
                         });
 
