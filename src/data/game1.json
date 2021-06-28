@@ -1,0 +1,241 @@
+{
+  "contestId": "b0360478-5acc-48a6-b445-5a17bd518ae0",
+  "expirationTime": "2021-06-29T00:00:00+00:00",
+  "games": [
+    {
+      "startTime": "2021-06-29T00:00:00+00:00",
+      "started": false,
+      "teams": {
+        "home": {
+          "id": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "name": "Lightning",
+          "city": "Tampa Bay",
+          "logo": "https://assets.boomfantasy.com/timHortons/logos/Lightning-v1.png",
+          "abbr": "TB"
+        },
+        "away": {
+          "id": "9679ee8c7c651c57298f72e5b303f8446e38498c",
+          "name": "Canadiens",
+          "city": "Montreal",
+          "abbr": "MTL",
+          "logo": "https://assets.boomfantasy.com/timHortons/logos/Canadiens-v1.png"
+        }
+      }
+    }
+  ],
+  "sets": [
+    {
+      "id": "1",
+      "players": [
+        {
+          "id": "c3e8e9aa53e0ea3a041844034ee738945fef4ccc",
+          "firstName": "Yanni",
+          "lastName": "Gourde",
+          "number": "37",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8476826_Gourde_Yanni-v1.png"
+        },
+        {
+          "id": "11f83c81ea3e969adcb0089c23bf1c999a5e5b13",
+          "firstName": "Alex",
+          "lastName": "Killorn",
+          "number": "17",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8473986_Killorn_Alex-v1.png"
+        },
+        {
+          "id": "bbd9f5571ccb7543b9044cfaa59c70d9eca9cbcf",
+          "firstName": "Steven",
+          "lastName": "Stamkos",
+          "number": "91",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8474564_Stamkos_Steven-v1.png"
+        },
+        {
+          "id": "5dd8826c6482758f7023de0b2b5fae3a054170f7",
+          "firstName": "Nikita",
+          "lastName": "Kucherov",
+          "number": "86",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/alternatePlayers/Lightning-v1.png"
+        },
+        {
+          "id": "9583fdb6f1156a4dce56bdc2141a76e20305d1dd",
+          "firstName": "Jesperi",
+          "lastName": "Kotkaniemi",
+          "number": "15",
+          "position": "F",
+          "teamId": "9679ee8c7c651c57298f72e5b303f8446e38498c",
+          "image": "https://assets.boomfantasy.com/timHortons/players/MTL_8480829_.Kotkaniemi_Jesperi-v1.png"
+        },
+        {
+          "id": "adba2267b924f9f6145fbfd169cb8626f95c8e9b",
+          "firstName": "Josh",
+          "lastName": "Anderson",
+          "number": "17",
+          "position": "F",
+          "teamId": "9679ee8c7c651c57298f72e5b303f8446e38498c",
+          "image": "https://assets.boomfantasy.com/timHortons/players/MTL_8476981_Anderson_Josh-v1.png"
+        },
+        {
+          "id": "701a3b5bb6c07af66efaccc4f2e126e89d3b001b",
+          "firstName": "Ondrej",
+          "lastName": "Palat",
+          "number": "18",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8476292_Palat_Ondrej-v1.png"
+        },
+        {
+          "id": "cfa746ad2b1d9892aa84ea3cc1e794dfe65d34e3",
+          "firstName": "Brayden",
+          "lastName": "Point",
+          "number": "21",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/alternatePlayers/Lightning-v1.png"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "players": [
+        {
+          "id": "723ffcaaa53d3ed586faba2d8b4822d5d47dee19",
+          "firstName": "Phillip",
+          "lastName": "Danault",
+          "number": "24",
+          "position": "F",
+          "teamId": "9679ee8c7c651c57298f72e5b303f8446e38498c",
+          "image": "https://assets.boomfantasy.com/timHortons/players/MTL_8476479_Danault_Phillip-v1.png"
+        },
+        {
+          "id": "8a35e56da8b3a898e993a57efae431d7551dfba2",
+          "firstName": "Tyler",
+          "lastName": "Johnson",
+          "number": "9",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8474870_Johnson_Tyler-v1.png"
+        },
+        {
+          "id": "ecce4a7a7f55d2b7c8846b5a95d06a627d032bd5",
+          "firstName": "Anthony",
+          "lastName": "Cirelli",
+          "number": "71",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8478519_Cirelli_Anthony-v1.png"
+        },
+        {
+          "id": "4753129659d7e96ca512697a2ab00aa3d0f152d0",
+          "firstName": "Ross",
+          "lastName": "Colton",
+          "number": "79",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/alternatePlayers/Lightning-v1.png"
+        },
+        {
+          "id": "21addbdd2db7ea24c7b832cc8b64fde9038ee84e",
+          "firstName": "Eric",
+          "lastName": "Staal",
+          "number": "21",
+          "position": "F",
+          "teamId": "9679ee8c7c651c57298f72e5b303f8446e38498c",
+          "image": "https://assets.boomfantasy.com/timHortons/players/BUF_8470595_Staal_Eric-v1.png"
+        },
+        {
+          "id": "38d10ebd92970f48f29d5e429bc16fcafe412340",
+          "firstName": "Victor",
+          "lastName": "Hedman",
+          "number": "77",
+          "position": "D",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8475167_Hedman_Victor-v1.png"
+        },
+        {
+          "id": "f5c030b5aaa69ffc065cb354c68016db51b9cd21",
+          "firstName": "Blake",
+          "lastName": "Coleman",
+          "number": "20",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/alternatePlayers/Lightning-v1.png"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "players": [
+        {
+          "id": "3e7ec9f662456251dbf15c096aaf144de4a586ab",
+          "firstName": "Mikhail",
+          "lastName": "Sergachev",
+          "number": "98",
+          "position": "D",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8479410_Sergachev_Mikhail-v1.png"
+        },
+        {
+          "id": "920bebc4d24f133eebeba1a3a32ec71858bf6bc9",
+          "firstName": "Barclay",
+          "lastName": "Goodrow",
+          "number": "19",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/alternatePlayers/Lightning-v1.png"
+        },
+        {
+          "id": "40baf79e0c93aec8f75873b4977c8a99faf53236",
+          "firstName": "David",
+          "lastName": "Savard",
+          "number": "58",
+          "position": "D",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/alternatePlayers/Lightning-v1.png"
+        },
+        {
+          "id": "c0394ba7575dc2278b60e0abcbed67acfee27f44",
+          "firstName": "Ryan",
+          "lastName": "McDonagh",
+          "number": "27",
+          "position": "D",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/alternatePlayers/Lightning-v1.png"
+        },
+        {
+          "id": "6e8f54c7f4c983a42f1660855c60416722ec0dfe",
+          "firstName": "Jeff",
+          "lastName": "Petry",
+          "number": "26",
+          "position": "D",
+          "teamId": "9679ee8c7c651c57298f72e5b303f8446e38498c",
+          "image": "https://assets.boomfantasy.com/timHortons/players/MTL_8473507_Petry_Jeff-v1.png"
+        },
+        {
+          "id": "599f088d0068192d4ee36fceb8f57ddfcf162281",
+          "firstName": "Pat",
+          "lastName": "Maroon",
+          "number": "14",
+          "position": "F",
+          "teamId": "85d75f3666247a23e47ff15076b0b3260bcbdc03",
+          "image": "https://assets.boomfantasy.com/timHortons/players/T.B_8474034_Maroon_Pat-v1.png"
+        },
+        {
+          "id": "83f82308f5f92b90086809b6c59593e986fce300",
+          "firstName": "Jon",
+          "lastName": "Merrill",
+          "number": "28",
+          "position": "D",
+          "teamId": "9679ee8c7c651c57298f72e5b303f8446e38498c",
+          "image": "https://assets.boomfantasy.com/timHortons/alternatePlayers/Canadiens-v1.png"
+        }
+      ]
+    }
+  ]
+}
