@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src"
+    "\\src",
+    "\\src\\data"
   ],
-  "SelectedNode": "\\src\\TimmiesApp.js",
+  "SelectedNode": "\\src\\data\\game1.json",
   "PreviewInSolutionExplorer": false
 }
