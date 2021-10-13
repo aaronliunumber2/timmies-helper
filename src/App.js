@@ -18,7 +18,7 @@ function App() {
             Tim Horton's Hockey Challenge Helper
           </header>
           <div>
-              <div>Hope you had fun playing and hope it's back again next year!  Check back once in a while I will be testing new features, and of course feel free to suggest some too!</div>
+              <div>Having problems connecting to the Tims Hockey App.  Hope to figure it out in the next couple days :(</div>
               <TimmiesApp />
               <Legend/ >
               <footer className="footer" >
