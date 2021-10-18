@@ -5,7 +5,6 @@ import teamData from './data/teams.json'
 import playerNames from './data/playerNames.json'
 import axios from 'axios'
 import { Button, Dropdown } from 'react-bootstrap'
-import Player from './Player'
 
 class TimmiesApp extends Component {
 
@@ -29,9 +28,11 @@ class TimmiesApp extends Component {
             playerListColumns: null,
             postponedGames : null,
             playerInjuries: [],
-            webInjuries : null,
+            webInjuries: null,
+            bearerToken : "eyJraWQiOiI2MkY1WVArTnZlZVFaVkhjak50bGh1UmJmU3R3bEhYTnNBMlo0TEVIZnd3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJhdWQiOiIzZm10bm9rbXB0cTRsM3E3cGZoYW00bzJmbiIsImV2ZW50X2lkIjoiZDAzODdhYTQtY2ZlMS00NDlkLTkwYWYtYzc5ZGJkODg1MGI0IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzQ1MzI2NDQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2RXTGRvenhGeiIsImNvZ25pdG86dXNlcm5hbWUiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJleHAiOjE2MzQ1MzYyNDUsImlhdCI6MTYzNDUzMjY0NSwiZW1haWwiOiJ6b3JiYW5lQGdtYWlsLmNvbSJ9.EtAG4kIvllRnW6g_vcvsMlP50dckyfawV4DWIXtsa6RC9XMXYPjHW7_A-NyVPXf_kbdszzSrB0-uLEgLJ4iE3a_GqgK8lEjNZwTXEr6sBY5LRDhURqudfItQWLi7Zs3GveMEBaXRdyoFfYIxBMahhoQxKB3td4BR8TYRQqPWjAeqqKsfIhucMbNyrfkJc0AJKKwAa65SWHR51ulnjNVL9HlwPehb758ksbJd_SYjOf0eP9Dj71BMQOz1nTU5apHZAhf26xDTEbi4XIpD8Uy7MAp45JjIxzcVX-TV1yEh8sKf1myQR-lX4Vl1wuN66_Vtpw2BRNhFbaKymKwD2WxpNQ",
         }
 
+        this.getBearerToken = this.getBearerToken.bind(this);
         this.loadTimmies = this.loadTimmies.bind(this);
         this.loadSetData = this.loadSetData.bind(this);
         this.loadInjuryData = this.loadInjuryData.bind(this);
@@ -59,13 +60,22 @@ class TimmiesApp extends Component {
 
     zorbaneProxyUrl = "https://proxy-zorbane.herokuapp.com/";
     bridgedUrl = "https://cors.bridged.cc/";
-    timmiesUrl = "https://px-api.rbi.digital/hockeyprod/picks";
-    bearerToken = "eyJraWQiOiI2MkY1WVArTnZlZVFaVkhjak50bGh1UmJmU3R3bEhYTnNBMlo0TEVIZnd3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJhdWQiOiIzZm10bm9rbXB0cTRsM3E3cGZoYW00bzJmbiIsImV2ZW50X2lkIjoiZDAzODdhYTQtY2ZlMS00NDlkLTkwYWYtYzc5ZGJkODg1MGI0IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzQ1MzI2NDQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2RXTGRvenhGeiIsImNvZ25pdG86dXNlcm5hbWUiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJleHAiOjE2MzQ1MzYyNDUsImlhdCI6MTYzNDUzMjY0NSwiZW1haWwiOiJ6b3JiYW5lQGdtYWlsLmNvbSJ9.EtAG4kIvllRnW6g_vcvsMlP50dckyfawV4DWIXtsa6RC9XMXYPjHW7_A-NyVPXf_kbdszzSrB0-uLEgLJ4iE3a_GqgK8lEjNZwTXEr6sBY5LRDhURqudfItQWLi7Zs3GveMEBaXRdyoFfYIxBMahhoQxKB3td4BR8TYRQqPWjAeqqKsfIhucMbNyrfkJc0AJKKwAa65SWHR51ulnjNVL9HlwPehb758ksbJd_SYjOf0eP9Dj71BMQOz1nTU5apHZAhf26xDTEbi4XIpD8Uy7MAp45JjIxzcVX-TV1yEh8sKf1myQR-lX4Vl1wuN66_Vtpw2BRNhFbaKymKwD2WxpNQ";
+    timmiesUrl = "https://px-api.rbi.digital/hockeyprod/picks";    
     refreshToken = "";
 
     componentDidMount() {
         this.setOverallColumns();
-        this.loadInjuryData();
+        this.getBearerToken();
+    }
+
+    getBearerToken() {
+        const promise = axios.get(this.zorbaneProxyUrl + "https://pastebin.com/raw/VL2VpYjq");
+        promise.then((response) => {
+            this.setState({ bearerToken: response.data },this.loadInjuryData());
+        })
+            .catch((error) => {
+                this.loadInjuryData()
+            });
     }
 
     loadInjuryData() {
@@ -139,10 +149,9 @@ class TimmiesApp extends Component {
             headers: {
                 "pragma": "no-cache",
                 "cache-control": "no-cache",
-                "authorization": "Bearer " + this.bearerToken,
+                "authorization": "Bearer " + this.state.bearerToken,
                 "accept": "application/json, text/plain, */*",
                 "x-cognito-id": "us-east-1:00cc6e37-18ae-4cb7-9e7f-41e0be1924c6",
-
                 "accept-language": "en-CA,en;q=0.9"
             }
         });
@@ -669,7 +678,7 @@ class TimmiesApp extends Component {
 
     setSeasonType(season) {
         if (season != this.state.seasonType) {
-            this.setState({ seasonType: season }, () => this.loadTeamData());
+            this.setState({ seasonType: season }, () => this.getBearerToken());
         }
     }
 
@@ -677,7 +686,7 @@ class TimmiesApp extends Component {
         if (season != this.state.currentSeason) {
             let seasonFormatted = season.substring(0, 4) + "-" + season.substring(4, 8);
             console.log("set season to " + season + " and formatted season to" + seasonFormatted);
-            this.setState({ currentSeason: season, currentSeasonFormatted: seasonFormatted }, () => this.loadTeamData());
+            this.setState({ currentSeason: season, currentSeasonFormatted: seasonFormatted }, () => this.getBearerToken());
         }
     }
 
