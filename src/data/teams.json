@@ -127,7 +127,10 @@
     {
       "fullName": "Buffalo Sabres",
       "abbreviation": "BUF"
+    },
+    {
+      "fullName": "Seattle Kraken",
+      "abbreviation": "SEA"
     }
-
   ]
 }

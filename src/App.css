@@ -115,11 +115,27 @@ input.trend-games{
     margin-right: 1em;
 }
 
-.warnings
-{
+
+button.season-dropdown {
+    border-color: #f8f9fa;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+button.season-dropdown:hover, button.season-dropdown.focus, button.season-dropdown:focus, .show > button#dropdown-basic.dropdown-toggle, #dropdown-basic.btn-success:not(:disabled):not(.disabled).active, #dropdown-basic.btn-success:not(:disabled):not(.disabled):active {
+    color: #212529;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+#dropdown-basic.btn-success:focus {
+    box-shadow: none;
+}
+
+.warnings {
     margin-top: 1em;
     margin-bottom: 1em;
-    color : red;
+    color: red;
 }
 
 .settings-buttons{

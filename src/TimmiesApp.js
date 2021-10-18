@@ -4,7 +4,7 @@ import Warnings from './Warnings';
 import teamData from './data/teams.json'
 import playerNames from './data/playerNames.json'
 import axios from 'axios'
-import { Button } from 'react-bootstrap'
+import { Button, Dropdown } from 'react-bootstrap'
 import Player from './Player'
 
 class TimmiesApp extends Component {
@@ -20,6 +20,8 @@ class TimmiesApp extends Component {
             teams : [],
             errorMessage: "",
             currentSeason: "20202021",
+            currentSeasonFormatted: "2020-2021",
+            actualSeason: "20212022",
             seasonType: "regular",
             currentView: "overall",
             trendGames: 5,
@@ -50,13 +52,16 @@ class TimmiesApp extends Component {
         this.getGoalStreak = this.getGoalStreak.bind(this);
 
         this.setCurrentView = this.setCurrentView.bind(this);
-        this.setSEasonType = this.setSeasonType.bind(this);
+        this.setSeasonType = this.setSeasonType.bind(this);
+        this.setSeason = this.setSeason.bind(this);
 
     }
 
-    zorbaneProxyUrl = "https://proxy-zorbane.herokuapp.com/"    
+    zorbaneProxyUrl = "https://proxy-zorbane.herokuapp.com/";
     bridgedUrl = "https://cors.bridged.cc/";
-    timmiesUrl = "http://ec2-52-71-240-52.compute-1.amazonaws.com/api/v1/players"
+    timmiesUrl = "https://px-api.rbi.digital/hockeyprod/picks";
+    bearerToken = "eyJraWQiOiI2MkY1WVArTnZlZVFaVkhjak50bGh1UmJmU3R3bEhYTnNBMlo0TEVIZnd3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJhdWQiOiIzZm10bm9rbXB0cTRsM3E3cGZoYW00bzJmbiIsImV2ZW50X2lkIjoiZDAzODdhYTQtY2ZlMS00NDlkLTkwYWYtYzc5ZGJkODg1MGI0IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzQ1MzI2NDQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2RXTGRvenhGeiIsImNvZ25pdG86dXNlcm5hbWUiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJleHAiOjE2MzQ1MzYyNDUsImlhdCI6MTYzNDUzMjY0NSwiZW1haWwiOiJ6b3JiYW5lQGdtYWlsLmNvbSJ9.EtAG4kIvllRnW6g_vcvsMlP50dckyfawV4DWIXtsa6RC9XMXYPjHW7_A-NyVPXf_kbdszzSrB0-uLEgLJ4iE3a_GqgK8lEjNZwTXEr6sBY5LRDhURqudfItQWLi7Zs3GveMEBaXRdyoFfYIxBMahhoQxKB3td4BR8TYRQqPWjAeqqKsfIhucMbNyrfkJc0AJKKwAa65SWHR51ulnjNVL9HlwPehb758ksbJd_SYjOf0eP9Dj71BMQOz1nTU5apHZAhf26xDTEbi4XIpD8Uy7MAp45JjIxzcVX-TV1yEh8sKf1myQR-lX4Vl1wuN66_Vtpw2BRNhFbaKymKwD2WxpNQ";
+    refreshToken = "";
 
     componentDidMount() {
         this.setOverallColumns();
@@ -89,7 +94,7 @@ class TimmiesApp extends Component {
         else {
             teamLink += "2";
         }
-        teamLink += "%20and%20seasonId%3C=" + this.state.currentSeason + "%20and%20seasonId%3E=" + this.state.currentSeason;
+        teamLink += "%20and%20seasonId%3C=" + this.state.actualSeason + "%20and%20seasonId%3E=" + this.state.actualSeason;
         let instance = axios.create({
             baseURL: teamLink,
             withCredentials: false,
@@ -128,7 +133,20 @@ class TimmiesApp extends Component {
 
     loadTimmies() {
         let timmiesUrl = this.zorbaneProxyUrl + this.timmiesUrl;
-        const promise = axios.post(timmiesUrl);
+        const timmiesGet = axios.create({
+            baseURL: timmiesUrl, 
+            method: "get",
+            headers: {
+                "pragma": "no-cache",
+                "cache-control": "no-cache",
+                "authorization": "Bearer " + this.bearerToken,
+                "accept": "application/json, text/plain, */*",
+                "x-cognito-id": "us-east-1:00cc6e37-18ae-4cb7-9e7f-41e0be1924c6",
+
+                "accept-language": "en-CA,en;q=0.9"
+            }
+        });
+        const promise = timmiesGet.get();
         promise.then((response) => {
             this.loadNHLGames(response.data);
         })
@@ -202,8 +220,8 @@ class TimmiesApp extends Component {
                 }
                 else {
                     basicSearchLink += "2";
-                }                
-                basicSearchLink += "%20and%20seasonId%3E=" + this.state.currentSeason +"%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
+                }
+                basicSearchLink += "%20and%20seasonId%3C=" + this.state.currentSeason + "%20and%20seasonId%3E=" + this.state.currentSeason + "%20and%20skaterFullName%20likeIgnoreCase%20%22%25" + firstName + "%20" + lastName + "%25%22";
                 let basicSearch = axios.create({
                     baseURL: basicSearchLink,
                     withCredentials: false,
@@ -232,7 +250,7 @@ class TimmiesApp extends Component {
                     }
 
 
-                    let playerIdLink = this.bridgedUrl + "https://statsapi.web.nhl.com/api/v1/people/";
+                    let playerIdLink = this.zorbaneProxyUrl + "https://statsapi.web.nhl.com/api/v1/people/";
                     playerIdLink = playerIdLink + key;
                     playerIdLink = playerIdLink + "?expand=person.stats&stats=";
                     if (this.state.seasonType === "playoffs") {
@@ -268,6 +286,7 @@ class TimmiesApp extends Component {
                         if (team != null) {
                             //change the player's team to the current team based on playerstats data (that is more accurate than the summary search)
                             basicData.teamAbbrevs = team.abbreviation;
+                            console.log("Setting team abbreviation for " + player.firstName + " " + player.lastName + " to " + team.abbreviation + " using team fullname " + playerDataTeam);
                         }
                         else {
                             console.log("Could not find team " + playerDataTeam);
@@ -394,13 +413,12 @@ class TimmiesApp extends Component {
                 }
             }
             else {
-                console.log("Can't find player team for player " + basicData.skaterFullName);
+                console.log("Can't find player team for player " + basicData.skaterFullName + " Team: " + playerTeamAbbr);
             }
         }
 
         if (!opponent) {
             console.log("Failed to get opponent for " + basicData.skaterFullName);
-            console.log("Team Abbr: " + basicData.teamAbbrevs);
             opponent = { teamAbbr: "nhl", goalsAgainstPerGame: 0 };
         }
         return opponent;
@@ -656,6 +674,14 @@ class TimmiesApp extends Component {
         }
     }
 
+    setSeason(season) {
+        if (season != this.state.currentSeason) {
+            let seasonFormatted = season.substring(0, 4) + "-" + season.substring(4, 8);
+            console.log("set season to " + season + " and formatted season to" + seasonFormatted);
+            this.setState({ currentSeason: season, currentSeasonFormatted: seasonFormatted }, () => this.loadTeamData());
+        }
+    }
+
     render() {
         let display = <div>ok</div>
 
@@ -678,6 +704,17 @@ class TimmiesApp extends Component {
                 <div>
                 {warnings}
                 <div className="settings-buttons"><Button onClick={(e) => this.setSeasonType("regular")} variant={this.state.seasonType === "regular" ? "dark" : "light"}>Regular Season</Button><Button onClick={(e) => this.setSeasonType("playoffs")} variant={this.state.seasonType === "playoffs" ? "dark" : "light"}>Playoffs</Button></div>
+                <div>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic" className="season-dropdown">
+                            {this.state.currentSeasonFormatted}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="season-dropdown" >
+                            <Dropdown.Item onClick={() => this.setSeason("20202021")}> 2020-2021</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeason("20212022")}>2021-2022</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
                 <div className="settings-buttons"><Button onClick={(e) => this.setCurrentView("overall")} variant={this.state.currentView === "overall" ? "dark" : "light"}>Overall</Button><Button onClick={(e) => this.setCurrentView("trend")} variant={this.state.currentView === "trend" ? "dark" : "light"}>Trend</Button></div>
                 {trendSettings}                
                 <PlayerLists playerLists={this.state.playerLists} games={this.state.games} teams={this.state.teams} playerListColumns={this.state.playerListColumns} />

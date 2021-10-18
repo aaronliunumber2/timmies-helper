@@ -18,7 +18,8 @@ function App() {
             Tim Horton's Hockey Challenge Helper
           </header>
           <div>
-              <div>Having problems connecting to the Tims Hockey App.  Hope to figure it out in the next couple days :(</div>
+              <div>App will be unstable for the near while.  Most of the time it will not connect properly and I have to manually fix it.  Refreshing constantly will not help. While it is in this state I will try to have it working at 9am PST/12pm EST and 9pm PST/12am EST but it depends if I am available or not.</div>
+              <div>Until the authentication issue is solved this is how it will work but it's still better than not working at all.</div>
               <TimmiesApp />
               <Legend/ >
               <footer className="footer" >
