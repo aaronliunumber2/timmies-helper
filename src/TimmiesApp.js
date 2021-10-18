@@ -29,7 +29,8 @@ class TimmiesApp extends Component {
             postponedGames : null,
             playerInjuries: [],
             webInjuries: null,
-            bearerToken : "eyJraWQiOiI2MkY1WVArTnZlZVFaVkhjak50bGh1UmJmU3R3bEhYTnNBMlo0TEVIZnd3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJhdWQiOiIzZm10bm9rbXB0cTRsM3E3cGZoYW00bzJmbiIsImV2ZW50X2lkIjoiZDAzODdhYTQtY2ZlMS00NDlkLTkwYWYtYzc5ZGJkODg1MGI0IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzQ1MzI2NDQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2RXTGRvenhGeiIsImNvZ25pdG86dXNlcm5hbWUiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJleHAiOjE2MzQ1MzYyNDUsImlhdCI6MTYzNDUzMjY0NSwiZW1haWwiOiJ6b3JiYW5lQGdtYWlsLmNvbSJ9.EtAG4kIvllRnW6g_vcvsMlP50dckyfawV4DWIXtsa6RC9XMXYPjHW7_A-NyVPXf_kbdszzSrB0-uLEgLJ4iE3a_GqgK8lEjNZwTXEr6sBY5LRDhURqudfItQWLi7Zs3GveMEBaXRdyoFfYIxBMahhoQxKB3td4BR8TYRQqPWjAeqqKsfIhucMbNyrfkJc0AJKKwAa65SWHR51ulnjNVL9HlwPehb758ksbJd_SYjOf0eP9Dj71BMQOz1nTU5apHZAhf26xDTEbi4XIpD8Uy7MAp45JjIxzcVX-TV1yEh8sKf1myQR-lX4Vl1wuN66_Vtpw2BRNhFbaKymKwD2WxpNQ",
+            bearerToken: "",
+            test: "eyJraWQiOiI2MkY1WVArTnZlZVFaVkhjak50bGh1UmJmU3R3bEhYTnNBMlo0TEVIZnd3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJhdWQiOiIzZm10bm9rbXB0cTRsM3E3cGZoYW00bzJmbiIsImV2ZW50X2lkIjoiZDAzODdhYTQtY2ZlMS00NDlkLTkwYWYtYzc5ZGJkODg1MGI0IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzQ1MzI2NDQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2RXTGRvenhGeiIsImNvZ25pdG86dXNlcm5hbWUiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJleHAiOjE2MzQ1MzYyNDUsImlhdCI6MTYzNDUzMjY0NSwiZW1haWwiOiJ6b3JiYW5lQGdtYWlsLmNvbSJ9.EtAG4kIvllRnW6g_vcvsMlP50dckyfawV4DWIXtsa6RC9XMXYPjHW7_A-NyVPXf_kbdszzSrB0-uLEgLJ4iE3a_GqgK8lEjNZwTXEr6sBY5LRDhURqudfItQWLi7Zs3GveMEBaXRdyoFfYIxBMahhoQxKB3td4BR8TYRQqPWjAeqqKsfIhucMbNyrfkJc0AJKKwAa65SWHR51ulnjNVL9HlwPehb758ksbJd_SYjOf0eP9Dj71BMQOz1nTU5apHZAhf26xDTEbi4XIpD8Uy7MAp45JjIxzcVX-TV1yEh8sKf1myQR-lX4Vl1wuN66_Vtpw2BRNhFbaKymKwD2WxpNQ",
         }
 
         this.getBearerToken = this.getBearerToken.bind(this);
@@ -69,7 +70,15 @@ class TimmiesApp extends Component {
     }
 
     getBearerToken() {
-        const promise = axios.get(this.zorbaneProxyUrl + "https://pastebin.com/raw/VL2VpYjq");
+        const bearerGet = axios.create({
+            baseURL: this.zorbaneProxyUrl + "https://pastebin.com/raw/VL2VpYjq",
+            headers: {
+                "pragma": "no-cache",
+                "cache-control": "no-cache",
+                "expires" : 0,
+            }
+        });
+        const promise = bearerGet.get();
         promise.then((response) => {
             this.setState({ bearerToken: response.data },this.loadInjuryData());
         })
