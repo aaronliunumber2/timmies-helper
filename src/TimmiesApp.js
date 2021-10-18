@@ -286,7 +286,6 @@ class TimmiesApp extends Component {
                         if (team != null) {
                             //change the player's team to the current team based on playerstats data (that is more accurate than the summary search)
                             basicData.teamAbbrevs = team.abbreviation;
-                            console.log("Setting team abbreviation for " + player.firstName + " " + player.lastName + " to " + team.abbreviation + " using team fullname " + playerDataTeam);
                         }
                         else {
                             console.log("Could not find team " + playerDataTeam);
