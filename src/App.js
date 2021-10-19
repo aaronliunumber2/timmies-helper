@@ -23,7 +23,7 @@ class App extends Component {
     }
 
     render() {
-        let message = <div onClick={(e) => this.clickHeader()}><a href="#">App will be unstable for the near while.  Most of the time it will not connect properly and I have to manually fix it.  Refreshing constantly will not help. While it is in this state I will try to have it working at 9am PST/12pm EST-10am PST/1pm EST and 9pm PST/12am EST-10pm PST/1am EST but it depends if I am available or not.  Until the authentication issue is solved this is how it will work but it's still better than not working at all.  Click to hide...</a></div>
+        let message = <div onClick={(e) => this.clickHeader()}><a href="#">The site seems to be stable now.  Good luck everyone!  Click to hide...</a></div>
 
         return (
             <div className="App">
