@@ -34,6 +34,7 @@ class TimmiesApp extends Component {
         }
 
         this.getBearerToken = this.getBearerToken.bind(this);
+        //this.getPastebinBearer = this.getPastebinBearer.bind(this);
         this.loadTimmies = this.loadTimmies.bind(this);
         this.loadSetData = this.loadSetData.bind(this);
         this.loadInjuryData = this.loadInjuryData.bind(this);
@@ -59,10 +60,11 @@ class TimmiesApp extends Component {
 
     }
 
+    timmiesAuthUrl = "https://cognito-idp.us-east-1.amazonaws.com/";
     zorbaneProxyUrl = "https://proxy-zorbane.herokuapp.com/";
     bridgedUrl = "https://cors.bridged.cc/";
     timmiesUrl = "https://px-api.rbi.digital/hockeyprod/picks";    
-    refreshToken = "";
+    refreshToken = "eyJjdHkiOiJKV1QiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.CjgbIYfa_cu2jGKvSG-6JL9AlzlLi0T8XwnwYtkY4uViiqSrTupwTGRaZy7_0-a9La4V4vxRsW4GwJYm_Ke_8p4y1x3bwrkihQxLniOz5tu-Mo9gkpE-mDALpkb9d8KocL04aHCMBDY-KhIQqBIqPf9EsDNY5sb2H6U5sQuILXVKcgbgZp3UE6INix7kKJAEUZ6U9evI_2ag_J_Staj8WQColWX2PJuWIe-DckB0isd6MP2acaC5C3nRUc-YCV8rOlzt-VQvtRstvQhBMVvgsAzJ8LAzumQUvPuV2yS4ESDuxE18UZTYn3LVuHLK0J7qWz1XorIH6VgD1XFeSDHEDw.llJyOnu20ar3zQCo.U_-qRLsDPmFH7t_TJkqmCiBhqXuUAYexL0zrukNOLG_hCmcoIaSbjCVO22u204u2APjPhA2Bk94qgnwfho4Za3ozlPXZk8j-T_rZiKOqX05U2uJTnSoKgb5rLQnuVmtISxL77DiIwIR-SbgJ_Me6iz6Yeztge6DEY6CmTwJUlX30zuQMbT-Fe4vzUUico1ah1SqbqS0TqOVPYFsULXrZgQHeZ9Pe5xsg9E1cdEqLWjZ5YbWjuRXWEqN3ODbz0XE_sfQbKQx9k7asziUubcNAuwH827Wc2z9hCjJhUqzv9K1pLbYkUhZ9oAQ4kt2CnObDFgFMEwXqwYNyCVWRe-6i1fvrhYhTN0Nxm7D6eQTm_3nPasP-_GeZN5RbF49B9j9yz7EPxH03E38qBazNxoR5TPUdrFf4HvWdQ7UVn2LWwURlN58pm0w_NZa0r9SWvQTEGNdsdUumW2ZL4r-IOenCRFPVP_wTnS0w2773vOwk66VnxttMYO8rcprz6cWp5vHfet5C7ISgAWMQyFQEi15bQUuWZxhIohIyCxibnEOHOQwwvb2rzPipWrH8LzVf5MJaSQHYy_sMGFnKim-IbL1BcQIchs2oUh6O9TG1eLjp-7QIcvjFBfX4g9mfuKBbnlyy5nLKVkTGp17yYDVomkHQzLwqBktXW57B3W41GnqPMafxqQ7eNB9FPIvM-U5hIdIHkJVLvSxFsuXnLXwvGqI8zUyAOXgO7hxFlldRNC_9DggqSVnIbTQ0dAQUN_aQu0bB1vRmQK4nwo9M0k21ruadviQnlzzh2zJufA4_zaX4-pW4CdPXtyN8t9fbyZLcgBaMvdfp84v5_pH4xaP34ueMEdouYGjhDCnUeXksuh_9sMX1M4TzcC6BoGywsw9EKfKL83CtzcQUh-esJGkniD_-kVjbWVkiVhocVBg7VOcVs7dG7VfooJCkKXN-h0WPbCYoxhPf9qeAPe_xG8U2IqNOxbNgpOBsKwMcvrXPmQFXFUPlBKDAmqMEAblAg5K8IHkh-qJAWHbavUWpDhuYFz_NJBKbw4LxvHMPrDEr8LH0VkphSxZdadqzmw2L_A2SYw_tooEgY-D7gNNDf6wNYIbk2N54VPm0NYBZ0UXvLcQOIFPBTD-fDsuyRrioi4d0kMMg0BlKrprt3BoIYYUJbmvaRVldQ04gzUlUS2TtFQRZzhU0b-iqvi_NMK1vBTc39rjodK8VfFL-I_a0sDvEjj_9tdkeCd4tdXXB9FGtcMBQ7XSxI92MPTumbvpGw41CjXfQz0j_1DeFW3sL5hlESRBU_u27JLok-mrk_KACtTO73XuXlZD7hA5Zhh66QQ.Uk_qbWs7PfH_J_SlsdwRgw";
 
     componentDidMount() {
         this.setOverallColumns();
@@ -70,22 +72,47 @@ class TimmiesApp extends Component {
     }
 
     getBearerToken() {
-        const bearerGet = axios.create({
-            baseURL: this.zorbaneProxyUrl + "https://pastebin.com/raw/VL2VpYjq",
-            headers: {
-                "pragma": "no-cache",
-                "cache-control": "no-cache",
-                "expires" : 0,
-            }
-        });
-        const promise = bearerGet.get();
+        const data = { "ClientId": "3fmtnokmptq4l3q7pfham4o2fn", "AuthFlow": "REFRESH_TOKEN_AUTH", "AuthParameters": { "REFRESH_TOKEN": this.refreshToken, "DEVICE_KEY": null } };
+        const headers = {
+            "accept": "*/*",
+            "accept-language": "en-US,en;q=0.9",
+            "cache-control": "max-age=0",
+            "content-type": "application/x-amz-json-1.1",
+            "x-amz-target": "AWSCognitoIdentityProviderService.InitiateAuth",
+            "x-amz-user-agent": "aws-amplify/0.1.x js"
+        };
+        const promise = axios.post(
+            this.zorbaneProxyUrl + this.timmiesAuthUrl,
+            data,
+            { headers }
+        );
+
         promise.then((response) => {
-            this.setState({ bearerToken: response.data },this.loadInjuryData());
+            this.setState({ bearerToken: response.data.AuthenticationResult.IdToken }, this.loadInjuryData());
         })
             .catch((error) => {
-                this.loadInjuryData()
+                console.log("Refresh call failed, use pastebin bearer");
+                this.getPastebinBearer();
             });
     }
+
+    //getPastebinBearer() {
+    //    const bearerGet = axios.create({
+    //        baseURL: this.zorbaneProxyUrl + "https://pastebin.com/raw/VL2VpYjq",
+    //        headers: {
+    //            "pragma": "no-cache",
+    //            "cache-control": "no-cache",
+    //            "expires" : 0,
+    //        }
+    //    });
+    //    const promise = bearerGet.get();
+    //    promise.then((response) => {
+    //        this.setState({ bearerToken: response.data },this.loadInjuryData());
+    //    })
+    //        .catch((error) => {
+    //            this.loadInjuryData()
+    //        });
+    //}
 
     loadInjuryData() {
         const injuryGet = axios.create({

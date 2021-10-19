@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src"
+    "\\public",
+    "\\public\\assets",
+    "\\src",
+    "\\src\\data"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\src\\Legend.js",
   "PreviewInSolutionExplorer": false
 }
