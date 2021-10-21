@@ -1,12 +1,17 @@
 import './App.css';
 import paypallogo from './paypal.png';
-import Container from 'react-bootstrap/Container'
 import TimmiesApp from './TimmiesApp'
 import Legend from './Legend'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react'
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 
 class App extends Component {
+
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
 
     constructor(props) {
         super(props);
@@ -38,7 +43,7 @@ class App extends Component {
           </header>
                 <div>
                     {this.state.showMessage && message}
-                    <TimmiesApp />
+                    <TimmiesApp cookies={this.props.cookies}/>
                     <Legend />
                     <footer className="footer" >
                         <div>Questions? Suggestions? Find me on <a href={"//www.twitter.com/Zorbane"} target="_blank">Twitter</a></div>
@@ -50,4 +55,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withCookies(App);
