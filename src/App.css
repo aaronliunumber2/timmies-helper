@@ -193,6 +193,9 @@ td {
 .long-stat {
     width: 100px;
 }
+tr.injured-player {
+    background-color: #ff7e7e;
+}
 
 th {
     padding-left: 5px;
