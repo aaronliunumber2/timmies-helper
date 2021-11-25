@@ -206,8 +206,23 @@ class TimmiesApp extends Component {
             this.loadNHLGames(response.data);
         })
             .catch((error) => {
-                console.log(error);
-                this.setState({ errorMessage: "Sorry!  Unable to load Tims Hockey Challenge Data.  Please try again later." });
+                let handled = false;
+                if (error.response) {
+                    console.log(error.response.status);
+                    console.log(error.response.data);
+                    if (error.response.status === 404) {
+                        if (error.response.data.code) {
+                            if (error.response.data.code === "noContest") {
+                                this.setState({ errorMessage: "Take a break!  No games today." });
+                                handled = true;
+                            }
+                        }
+                    }
+                }
+                if (!handled) {
+                    console.log(error);
+                    this.setState({ errorMessage: "Sorry!  Unable to load Tims Hockey Challenge Data.  Please try again later." });
+                }
             });
     }
 
