@@ -1,11 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\public",
-    "\\public\\assets",
     "\\src",
     "\\src\\data"
   ],
-  "SelectedNode": "\\src\\App.css",
+  "SelectedNode": "\\src\\TimmiesApp.js",
   "PreviewInSolutionExplorer": false
 }

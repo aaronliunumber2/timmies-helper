@@ -534,6 +534,13 @@ class TimmiesApp extends Component {
                         className: "long-stat"
                     },
                     {
+                        Header: "Shoot%",
+                        id: "playerShootingPercentage",
+                        accessor: "nhldata.shootingPct",
+                        className: "long-stat",
+                        Cell: props => (props.value * 100).toFixed(1)
+                    },
+                    {
                         Header: "PP.TOI/GP",
                         id: "playerPPTimePerGame",
                         accessor: "statsdata.powerPlayTimeOnIcePerGame",
@@ -603,6 +610,12 @@ class TimmiesApp extends Component {
                         Header: "Shots/GP",
                         id: "playerShotsPerGame",
                         accessor: (row) => { return (this.getValueFromPastGames(row, "shots", this.state.trendGames) / this.getLowerTrendGamesPlayed(row, this.state.trendGames)).toFixed(2) },
+                        className: "long-stat",
+                    },
+                    {
+                        Header: "Shoot%",
+                        id: "playerShootingPercentage",
+                        accessor: (row) => { return ((this.getValueFromPastGames(row, "goals", this.state.trendGames) / this.getValueFromPastGames(row, "shots", this.state.trendGames)) * 100).toFixed(1);  },
                         className: "long-stat",
                     },
                     {

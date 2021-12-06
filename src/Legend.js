@@ -26,6 +26,7 @@ class Legend extends Component {
                         GP - Games Played<br />
                         G - Goals<br />
                         Shots/GP - Shots per Game Played<br />
+                        Shoot% - Percentage of shots that score<br />
                         PP.TOI/GP - Power Play Time on Ice per Game Played<br />
                         TOI/GP - Time on Ice per Game Played<br />
                         Goals/GP - Goals per Game Played<br />
