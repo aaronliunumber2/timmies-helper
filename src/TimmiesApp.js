@@ -536,9 +536,9 @@ class TimmiesApp extends Component {
                     {
                         Header: "Shoot%",
                         id: "playerShootingPercentage",
-                        accessor: "nhldata.shootingPct",
+                        accessor: (row) => { return (row.nhldata.shootingPct * 100).toFixed(1) },
+                        //cell : (props) => { return (props.value * 100).toFixed(1) },
                         className: "long-stat",
-                        Cell: props => (props.value * 100).toFixed(1)
                     },
                     {
                         Header: "PP.TOI/GP",
