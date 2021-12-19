@@ -250,7 +250,6 @@ class TimmiesApp extends Component {
                 //go through and check if there are postponed games
                 const games = response.data.dates[0].games;
                 let postponedGames = games.filter(game => game.status.detailedState === "Postponed");
-               
 
                 this.setState({ loading: false, games: games, postponedGames : postponedGames }, ()=> this.loadSetData(timmiesData.sets));
             })
@@ -347,6 +346,7 @@ class TimmiesApp extends Component {
 
 
                         let playerDataTeam = playerStatsData.currentTeam.name;
+                        let originalPlayerTeamName = playerStatsData.currentTeam.name;
                         //montreal canadiens has an accent, problem finding it in the json
                         if (playerDataTeam.includes("Canadiens")) {
                             playerDataTeam = "Montreal Canadiens";
@@ -423,6 +423,15 @@ class TimmiesApp extends Component {
                                 let injury = this.state.webInjuries.find((injury) => injury.player === playerData.fullName);
                                 if (injury) {
                                     playerData.injury = injury;
+                                }
+                            }
+
+                            //see if the player is in a postponed game
+                            if (this.state.postponedGames) {
+                                if (this.state.postponedGames.find((g) => g.teams.away.team.name === originalPlayerTeamName) ||
+                                    this.state.postponedGames.find((g) => g.teams.home.team.name === originalPlayerTeamName)) {
+                                    playerData.postponed = true;
+                                    console.log("setting " + playerData.fullName + " to postponed status true");
                                 }
                             }
 
