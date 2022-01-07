@@ -17,10 +17,17 @@ export default function Warnings(props) {
         )
     }
 
+    const otherWarnings = props.otherWarnings.map((warning, i) =>
+        <div key={i}>
+            Warning: {warning}
+        </div>
+    )
+
     return (
         <div className="warnings">
             {postponedGamesWarning}
             {playerInjuries}
+            {otherWarnings}
         </div>
         )
 }

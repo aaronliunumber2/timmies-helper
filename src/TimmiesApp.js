@@ -31,6 +31,7 @@ class TimmiesApp extends Component {
             webInjuries: null,
             bearerToken: "",
             test: "eyJraWQiOiI2MkY1WVArTnZlZVFaVkhjak50bGh1UmJmU3R3bEhYTnNBMlo0TEVIZnd3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJhdWQiOiIzZm10bm9rbXB0cTRsM3E3cGZoYW00bzJmbiIsImV2ZW50X2lkIjoiZDAzODdhYTQtY2ZlMS00NDlkLTkwYWYtYzc5ZGJkODg1MGI0IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzQ1MzI2NDQsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX2RXTGRvenhGeiIsImNvZ25pdG86dXNlcm5hbWUiOiI0Yzk2NWRjYS1hYTk1LTQzZDUtYTdmZS1jNDc2NDFmN2M1MDgiLCJleHAiOjE2MzQ1MzYyNDUsImlhdCI6MTYzNDUzMjY0NSwiZW1haWwiOiJ6b3JiYW5lQGdtYWlsLmNvbSJ9.EtAG4kIvllRnW6g_vcvsMlP50dckyfawV4DWIXtsa6RC9XMXYPjHW7_A-NyVPXf_kbdszzSrB0-uLEgLJ4iE3a_GqgK8lEjNZwTXEr6sBY5LRDhURqudfItQWLi7Zs3GveMEBaXRdyoFfYIxBMahhoQxKB3td4BR8TYRQqPWjAeqqKsfIhucMbNyrfkJc0AJKKwAa65SWHR51ulnjNVL9HlwPehb758ksbJd_SYjOf0eP9Dj71BMQOz1nTU5apHZAhf26xDTEbi4XIpD8Uy7MAp45JjIxzcVX-TV1yEh8sKf1myQR-lX4Vl1wuN66_Vtpw2BRNhFbaKymKwD2WxpNQ",
+            otherWarnings : [],
         }     
 
 
@@ -488,6 +489,8 @@ class TimmiesApp extends Component {
                 }
                 else {
                     console.log("Can't find game for player " + basicData.skaterFullName);
+                    let newOtherWarnings = [...this.state.otherWarnings, basicData.skaterFullName + " - Unable to find game."];
+                    this.setState({ otherWarnings: newOtherWarnings });
                 }
             }
             else {
@@ -496,7 +499,6 @@ class TimmiesApp extends Component {
         }
 
         if (!opponent) {
-            console.log("Failed to get opponent for " + basicData.skaterFullName);
             opponent = { teamAbbr: "nhl", goalsAgainstPerGame: 0 };
         }
         return opponent;
@@ -794,7 +796,7 @@ class TimmiesApp extends Component {
             }
             let warnings;
             if (this.state.postponedGames || this.state.playerInjuries) {
-                warnings = <Warnings postponedGames={this.state.postponedGames} injuries={this.state.playerInjuries}/>
+                warnings = <Warnings postponedGames={this.state.postponedGames} injuries={this.state.playerInjuries} otherWarnings={this.state.otherWarnings} />
             }
             display =
                 <div>

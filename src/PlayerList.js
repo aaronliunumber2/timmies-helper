@@ -51,7 +51,7 @@ export default function PlayerList({ columns, data }) {
                 {rows.map((row, i) => {
                     prepareRow(row);
                     return (
-                        <tr className={ (row.original.injury || row.original.postponed) ? "injured-player" : "" }{...row.getRowProps()}>
+                        <tr className={ (row.original.injury || row.original.postponed || row.original.opponent.teamAbbr === 'nhl') ? "injured-player" : "" }{...row.getRowProps()}>
                             {row.cells.map(cell => {
                                 return <td c{...cell.getCellProps([{className: cell.column.className}])}>{cell.render("Cell")}</td>;
                             })}
