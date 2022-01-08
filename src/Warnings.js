@@ -45,7 +45,7 @@ class Warnings extends Component {
             {this.state.showWarnings && postponedGamesWarning}
             {this.state.showWarnings && playerInjuries}
             {this.state.showWarnings && otherWarnings}
-            {(this.props.postponedGames.length > 0) && (this.props.injuries.length > 0) &&(this.props.otherWarnings.length > 0) && hideShow}
+            {((this.props.postponedGames.length > 0) || (this.props.injuries.length > 0) || (this.props.otherWarnings.length > 0)) && hideShow}
         </div>)
     }
 }
