@@ -301,7 +301,13 @@ class TimmiesApp extends Component {
                 });
                 const basicPromise = basicSearch.get();
                 basicPromise.then((response) => {
-                    const basicData = response.data.data[0];
+                    let basicData = response.data.data[0];
+                    if (response.data.data.length > 1) {
+                        if (player.lastName === "Aho") {
+                            basicData = response.data.data.find(p => p.teamAbbrevs === "CAR");
+                        }
+                    }
+
                     let key = player.firstName + player.lastName;
                     if (basicData) {
                         key = basicData.playerId;
@@ -429,11 +435,14 @@ class TimmiesApp extends Component {
 
                             //see if the player is in a postponed game
                             if (this.state.postponedGames) {
-                                if (this.state.postponedGames.find((g) => g.teams.away.team.name === originalPlayerTeamName) ||
-                                    this.state.postponedGames.find((g) => g.teams.home.team.name === originalPlayerTeamName)) {
+                                if ((this.state.postponedGames.find((g) => g.teams.away.team.name === originalPlayerTeamName) ||
+                                    this.state.postponedGames.find((g) => g.teams.home.team.name === originalPlayerTeamName))
+                                    //ok so now we know this player's team is in a postponed game but maybe their team is still playing a different game
+                                    && (!this.state.games.find((g) => g.teams.away.team.name === originalPlayerTeamName && g.status.detailedState != "Postponed") &&
+                                        !this.state.games.find((g) => g.teams.home.team.name === originalPlayerTeamName && g.status.detailedState != "Postponed"))) {
+                                    console.log("postponed game for " + playerData.fullName);
                                     playerData.postponed = true;
-                                    console.log("setting " + playerData.fullName + " to postponed status true");
-                                }
+                                }                                
                             }
 
                             if (playerData.injury) {
