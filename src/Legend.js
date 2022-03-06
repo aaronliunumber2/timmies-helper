@@ -30,6 +30,7 @@ class Legend extends Component {
                         PP.TOI/GP - Power Play Time on Ice per Game Played<br />
                         TOI/GP - Time on Ice per Game Played<br />
                         Goals/GP - Goals per Game Played<br />
+                        H/A - Whether the player is playing at home or away<br />
                         Opp.GAA - Opposition Goals Against Average<br />
                     </div>
                 </Collapse>

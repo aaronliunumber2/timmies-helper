@@ -43,6 +43,7 @@ class TimmiesApp extends Component {
         this.loadTeamData = this.loadTeamData.bind(this);
 
         this.getPlayerOpponent = this.getPlayerOpponent.bind(this);
+        this.getPlayerHomeAway = this.getPlayerHomeAway.bind(this);
         this.getTeamAbbreviation = this.getTeamAbbreviation.bind(this);
         this.getTimmiesAbbreviation = this.getTimmiesAbbreviation.bind(this);
 
@@ -396,8 +397,10 @@ class TimmiesApp extends Component {
                             //formatted/custom data
                             //get the opponent from the team list
                             let opponent = null;
+                            let homeaway = null;
                             if (basicData) {
                                 opponent = this.getPlayerOpponent(basicData);
+                                homeaway = this.getPlayerHomeAway(basicData);
                             }
 
                             //add goalsPerGame and shotsPerGame to basic data
@@ -417,7 +420,8 @@ class TimmiesApp extends Component {
                                 nhldata: basicData,
                                 statsdata : seasonStats,
                                 gamelogData: gameLogSplits,
-                                opponent: opponent,                               
+                                opponent: opponent,
+                                homeaway: homeaway,
                             };
 
                             //shallow copy of entire array
@@ -479,6 +483,32 @@ class TimmiesApp extends Component {
         }
     }
 
+    getPlayerHomeAway(basicData) {
+        let homeaway = null;
+        if (basicData) {
+            let playerTeamAbbr = basicData.teamAbbrevs;
+            let playerTeam = this.state.teams.find(team => team.teamAbbr === playerTeamAbbr);
+            if (playerTeam) {
+
+                let game;
+                game = this.state.games.find(game => game.teams.home.team.name === playerTeam.teamFullName || game.teams.away.team.name === playerTeam.teamFullName);
+                if (game) {
+                    if (game.teams.home.team.name === playerTeam.teamFullName) {
+                        homeaway = "Home";
+                    }
+                    else {
+                        homeaway = "Away";
+                    }
+                }
+            }
+            else {
+                console.log("Can't find player team for player " + basicData.skaterFullName + " Team: " + playerTeamAbbr);
+            }
+        }
+
+        return homeaway;
+    }
+
     getPlayerOpponent(basicData) {
         let opponent = null;
         if (basicData) {
@@ -534,8 +564,7 @@ class TimmiesApp extends Component {
                         id: "playerPosition",
                         accessor: "position",
                         className: "short-stat"
-                    },
-                    {
+                    },                     {
                         Header: "GP",
                         id: "playerGames",
                         accessor: "nhldata.gamesPlayed",
@@ -576,6 +605,12 @@ class TimmiesApp extends Component {
                         Header: "Goals/GP",
                         id: "playerGoalsPerGame",
                         accessor: "nhldata.goalsPerGame",
+                        className: "short-stat"
+                    },
+                    {
+                        Header: "H/A",
+                        id: "playerHomeaway",
+                        accessor: "homeaway",
                         className: "short-stat"
                     },
                     {
@@ -655,6 +690,12 @@ class TimmiesApp extends Component {
                         id: "playerGoalsPerGame",
                         accessor: (row) => { return (this.getValueFromPastGames(row, "goals", this.state.trendGames) / this.getLowerTrendGamesPlayed(row, this.state.trendGames)).toFixed(2) },
                         className: "short-stat",
+                    },
+                    {
+                        Header: "H/A",
+                        id: "playerHomeaway",
+                        accessor: "homeaway",
+                        className: "short-stat"
                     },
                     {
                         Header: "Opp.Season GAA",
