@@ -432,7 +432,7 @@ class TimmiesApp extends Component {
                             //see if the player is injured
                             if (this.state.webInjuries && !this.state.playerInjuries.find((p) => p.player === playerData.fullName)) { //it may be null if this call failed and that is OK
                                 let injury = this.state.webInjuries.find((injury) => injury.player === playerData.fullName);
-                                if (injury) {
+                                if (injury && playerData.fullName != 'Sebastian Aho') {
                                     playerData.injury = injury;
                                 }
                             }
