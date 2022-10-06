@@ -17,7 +17,7 @@ class App extends Component {
         super(props);
 
         this.state = {
-            showMessage: false
+            showMessage: true
         };
 
         this.clickHeader = this.clickHeader.bind(this);
@@ -28,7 +28,7 @@ class App extends Component {
     }
 
     render() {
-        let message = <div onClick={(e) => this.clickHeader()}><a href="#">The site seems to be stable now.  Good luck everyone!  Click to hide...</a></div>
+        let message = <div onClick={(e) => this.clickHeader()}>timmies.zorbane.com is moving to <a target="_blank" href="https://hockeychallengehelper.com">https://hockeychallengehelper.com</a>.  Please check it out and provide feedback!  <a href="#">Click to hide...</a></div>
 
         return (
             <div className="App">
