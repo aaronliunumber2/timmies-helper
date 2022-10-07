@@ -858,8 +858,8 @@ class TimmiesApp extends Component {
                             {this.state.currentSeasonFormatted}
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="season-dropdown" >
-                            <Dropdown.Item onClick={() => this.setSeason("20202021")}> 2020-2021</Dropdown.Item>
                             <Dropdown.Item onClick={() => this.setSeason("20212022")}>2021-2022</Dropdown.Item>
+                            <Dropdown.Item onClick={() => this.setSeason("20222023")}>2022-2023</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
