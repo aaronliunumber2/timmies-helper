@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src"
+    "\\public",
+    "\\public\\assets",
+    "\\public\\assets\\logos"
   ],
-  "SelectedNode": "\\src\\PlayerList.js",
   "PreviewInSolutionExplorer": false
 }
