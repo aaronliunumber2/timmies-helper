@@ -28,7 +28,7 @@ class App extends Component {
     }
 
     render() {
-        let message = <div>timmies.zorbane.com is moving to <a target="_blank" href="https://hockeychallengehelper.com">https://hockeychallengehelper.com</a>.  Please check it out and provide feedback!  <a href="#" onClick={(e) => this.clickHeader()}>Click to hide...</a></div>
+        let message = <div>timmies.zorbane.com will shut down in less than two weeks.  Head to the new site <a target="_blank" href="https://hockeychallengehelper.com">https://hockeychallengehelper.com</a>! <a href="#" onClick={(e) => this.clickHeader()}>Click to hide...</a></div>
 
         return (
             <div className="App">

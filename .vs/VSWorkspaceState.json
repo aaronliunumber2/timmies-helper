@@ -3,7 +3,9 @@
     "",
     "\\public",
     "\\public\\assets",
-    "\\public\\assets\\logos"
+    "\\public\\assets\\logos",
+    "\\src"
   ],
+  "SelectedNode": "\\src\\TimmiesApp.js",
   "PreviewInSolutionExplorer": false
 }
