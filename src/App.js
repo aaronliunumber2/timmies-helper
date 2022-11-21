@@ -28,7 +28,7 @@ class App extends Component {
     }
 
     render() {
-        let message = <div>timmies.zorbane.com will shut down in less than two weeks.  Head to the new site <a target="_blank" href="https://hockeychallengehelper.com">https://hockeychallengehelper.com</a>! <a href="#" onClick={(e) => this.clickHeader()}>Click to hide...</a></div>
+        let message = <div>On November 24th timmies.zorbane.com will auto redirect to <a target="_blank" href="https://hockeychallengehelper.com">https://hockeychallengehelper.com</a> <a href="#" onClick={(e) => this.clickHeader()}>Click to hide...</a></div>
 
         return (
             <div className="App">
